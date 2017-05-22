@@ -12,4 +12,10 @@
     <string name="error_field_required">Dieses Feld wird benötigt</string>
     <string name="permission_rationale">"Bitte gib uns Berechtigung zum Speichern :)"
     </string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
