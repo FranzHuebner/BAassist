@@ -65,6 +65,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_timetable) {
             startActivity(new Intent(BaseActivity.this, TimetableActvity.class));
         } else if (id == R.id.nav_wiki) {
+            startActivity(new Intent(BaseActivity.this, WikiActivity.class));
 
         } else if (id == R.id.nav_ueber) {
 
