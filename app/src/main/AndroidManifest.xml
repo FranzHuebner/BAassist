@@ -30,7 +30,8 @@
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TimetableActvity" />
-        <activity android:name=".WikiActivity"></activity>
+        <activity android:name=".WikiActivity" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>
