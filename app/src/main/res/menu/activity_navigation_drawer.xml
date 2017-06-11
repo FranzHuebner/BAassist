@@ -12,6 +12,11 @@
             android:icon="@drawable/ic_free_breakfast_black_24dp"
             android:title="BA-Wiki" />
 
+        <item
+            android:id="@+id/nav_results"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Klausurergebnisse" />
+
     </group>
 
     <item android:title="Optionen">

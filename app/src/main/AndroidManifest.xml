@@ -31,7 +31,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TimetableActvity" />
         <activity android:name=".WikiActivity" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".ResultsActivity"></activity>
     </application>
 
 </manifest>
