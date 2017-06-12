@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import android.app.AlertDialog;
@@ -185,9 +186,19 @@ public class LoginActivity extends AppCompatActivity {
         }
         @Override
         protected Boolean doInBackground(Void... params) {
-
-
-        return true;
+            boolean reachable = false;
+            try {
+               reachable = connAdapter.isReachable("https://selfservice.campus-dual.de/");
+                }
+             catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(reachable){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
 
         @Override
