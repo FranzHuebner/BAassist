@@ -8,14 +8,15 @@ import android.webkit.WebView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class WikiActivity extends BaseActivity {
 
     private WebView webView;
-    private String WikiURL = "https://raw.githubusercontent.com/FranzHuebner/BAassist/master/ba_wiki_host";
-    char test = 'a';
+    String WikiURL = "https://raw.githubusercontent.com/FranzHuebner/BAassist/master/ba_wiki_host";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,16 @@ public class WikiActivity extends BaseActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        boolean reachWiki;
+        try {
+            reachWiki = connAdapter.isReachable(WikiURL);
+        } catch (IOException e) {
+            e.printStackTrace();
+            reachWiki=false;
+        }
 
-        if(checkConnection(WikiURL)) {
+
+        if(reachWiki) {
             webView = (WebView) findViewById(R.id.webView1);
             webView.getSettings().setJavaScriptEnabled(false);
             webView.loadUrl(WikiURL);
@@ -43,25 +52,5 @@ public class WikiActivity extends BaseActivity {
 
     }
 
-    public static boolean checkConnection(String urlString) {
-        InputStream stream = null;
-        try {
-            URL url = new URL(urlString);
-            URLConnection con = url.openConnection();
-
-            stream = con.getInputStream();
-            return true;
-        } catch (Exception e) {
-            return false;
-        } finally {
-            if (stream != null)
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                }
-        }
-
-
-    }
 }
 
