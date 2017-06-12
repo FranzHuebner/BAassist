@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 
 public class TimetableActvity extends BaseActivity {
 
@@ -32,6 +33,13 @@ public class TimetableActvity extends BaseActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+
+    public int getActSeconds(){
+        Calendar c = Calendar.getInstance();
+        int seconds = c.get(Calendar.SECOND);
+        return seconds;
     }
 
 //    private void getTimetable() throws IOException {

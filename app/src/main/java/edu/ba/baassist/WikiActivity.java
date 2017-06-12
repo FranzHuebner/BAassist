@@ -1,12 +1,10 @@
 package edu.ba.baassist;
 
 import android.support.design.widget.NavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +29,7 @@ public class WikiActivity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        if(checkConection(WikiURL)) {
+        if(checkConnection(WikiURL)) {
             webView = (WebView) findViewById(R.id.webView1);
             webView.getSettings().setJavaScriptEnabled(false);
             webView.loadUrl(WikiURL);
@@ -45,7 +43,7 @@ public class WikiActivity extends BaseActivity {
 
     }
 
-    public static boolean checkConection(String urlString) {
+    public static boolean checkConnection(String urlString) {
         InputStream stream = null;
         try {
             URL url = new URL(urlString);
