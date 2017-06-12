@@ -5,10 +5,10 @@
     <string name="prompt_email">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Anmelden</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_short">Anmelden</string>
     <string name="error_invalid_email">Nutzername enthält falsche Zeichen</string>
-    <string name="error_invalid_password">Dein Passwort ist zu kurz</string>
-    <string name="error_incorrect_password">Falsches Passwort</string>
+    <string name="error_invalid_hash">Dein Hash muss 32 Zeichen enthalten</string>
+    <string name="error_incorrect_hash">Falscher Hash</string>
     <string name="error_field_required">Dieses Feld wird benötigt</string>
     <string name="permission_rationale">"Bitte gib uns Berechtigung zum Speichern :)"
     </string>
