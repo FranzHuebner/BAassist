@@ -184,15 +184,18 @@ public class LoginActivity extends AppCompatActivity {
         public String getuserid(){
             return (username);
         }
+
+
         @Override
         protected Boolean doInBackground(Void... params) {
             boolean reachable = false;
             try {
-               reachable = connAdapter.isReachable("https://selfservice.campus-dual.de/");
+               reachable = connAdapter.isReachable("http://selfservice.campus-dual.de/");
                 }
              catch (IOException e) {
                 e.printStackTrace();
             }
+
             if(reachable){
                 return true;
             }

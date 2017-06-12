@@ -178,7 +178,7 @@ public class connAdapter {
     }
 
    static public String getcal(String username, String hash, String start, String end){
-       
+
         String ErrorWord  ="Es ist ein fehler bei der Abfrage aufgetreten!";
         URL url;
         HttpURLConnection urlConnection ;
