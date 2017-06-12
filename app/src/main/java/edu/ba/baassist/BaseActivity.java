@@ -68,6 +68,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(BaseActivity.this, WikiActivity.class));
 
         } else if (id == R.id.nav_ueber) {
+            startActivity(new Intent(BaseActivity.this, AboutActivity.class));
 
         } else if (id == R.id.nav_settings) {
 
