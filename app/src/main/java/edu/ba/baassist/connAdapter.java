@@ -13,7 +13,7 @@ import java.lang.*;
 public class connAdapter {
 
     // check if the website is online
-    public boolean isReachable(String urlinput) throws IOException {
+  static public boolean isReachable(String urlinput) throws IOException {
 
         String myUrl = urlinput;
         URL url = new URL(myUrl);
@@ -29,7 +29,7 @@ public class connAdapter {
     }
 
     //Check if we can login with the provided data
-    public boolean loginconnection(String username, String hash){
+   static public boolean loginconnection(String username, String hash){
 
         URL url;
         HttpURLConnection urlConnection ;
@@ -74,7 +74,7 @@ public class connAdapter {
 
     }
     //get current Semester
-    public String getsemester(String username, String hash) {
+   static public String getsemester(String username, String hash) {
 
         String myUsername = username;
         String myHash = hash;
@@ -111,7 +111,7 @@ public class connAdapter {
     }
 
     //get the credits of the User
-    public String getcredits(String username, String hash){
+    static public String getcredits(String username, String hash){
 
         String myUsername =username;
         String myHash     =hash;
@@ -148,7 +148,7 @@ public class connAdapter {
     }
 
     //get the finished exams of the user
-    public String getexams(String username, String hash){
+    static public String getexams(String username, String hash){
 
         String myUsername =username;
         String myHash     =hash;
@@ -184,7 +184,7 @@ public class connAdapter {
         }
     }
 
-    public String getcal(String username, String hash, String start, String end){
+   static public String getcal(String username, String hash, String start, String end){
 
         String myUsername =username;
         String myHash     =hash;
