@@ -27,9 +27,11 @@ public class TimetableActvity extends BaseActivity {
         setContentView(R.layout.activity_timetable_actvity);
 //        RelativeLayout.LayoutParams lp =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 //        addContentView(findViewById(R.id.nav_timetable), lp);
+
+
         LayoutInflater inflater = getLayoutInflater();
         getWindow().addContentView(inflater.inflate(R.layout.activity_navigation, null, true), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        ViewGroup.LayoutParams.MATCH_PARENT));
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 

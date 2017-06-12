@@ -29,12 +29,12 @@ public class WikiActivity extends BaseActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        boolean reachWiki;
+        boolean reachWiki=false;
         try {
             reachWiki = connAdapter.isReachable(WikiURL);
         } catch (IOException e) {
             e.printStackTrace();
-            reachWiki=false;
+
         }
 
 
@@ -51,6 +51,8 @@ public class WikiActivity extends BaseActivity {
         }
 
     }
+
+
 
 }
 
