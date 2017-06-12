@@ -10,6 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Calendar;
+
 public class TimetableActvity extends BaseActivity {
 
 
@@ -26,4 +34,24 @@ public class TimetableActvity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(this);
 
     }
+
+
+    public int getActSeconds(){
+        Calendar c = Calendar.getInstance();
+        int seconds = c.get(Calendar.SECOND);
+        return seconds;
+    }
+
+//    private void getTimetable() throws IOException {
+//        URL url = new URL("http://www.android.com/");
+//        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//        try {
+//            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+//            readStream(in);
+//        } finally {
+//            urlConnection.disconnect();
+//        }
+
+
+
 }

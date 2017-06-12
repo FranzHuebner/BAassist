@@ -15,8 +15,8 @@ import android.widget.ListView;
 
 public class MainActivity extends BaseActivity{
 
-    private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
+//    private ListView mDrawerList;
+//    private ArrayAdapter<String> mAdapter;
 
 
     @Override
