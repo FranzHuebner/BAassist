@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
 
-                startActivity(new Intent(LoginActivity.this, TimetableActvity.class));
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 //go-to main activity and register account
 
             } else {
