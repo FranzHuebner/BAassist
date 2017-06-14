@@ -1,21 +1,13 @@
 package edu.ba.baassist;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.lang.*;
-import java.net.URLConnection;
-import java.security.KeyStore;
+
 import java.security.SecureRandom;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
@@ -39,7 +31,7 @@ public class connAdapter {
         try{
             //params need to be inside try
             URL url = new URL(theUrl);
-            URLConnection urlConnection = url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String line;
 
@@ -91,12 +83,13 @@ public class connAdapter {
     // check if the website is online
    public static boolean isReachable(String urlinput) throws IOException {
 
-       HttpURLConnection conn = (HttpURLConnection) new URL(urlinput).openConnection();
+       HttpsURLConnection conn = (HttpsURLConnection) new URL(urlinput).openConnection();
        conn.setRequestMethod("HEAD");
+       conn.setRequestProperty( "Accept-Encoding","");
        int response = conn.getResponseCode();
-
+       int retest = response;
         //HTTP -> OK (200) -> (304) ok for other site
-       return (response == 200) || (response == 304);
+       return ((response == HttpsURLConnection.HTTP_OK) || (response ==304) || (response ==100));
    }
 
     //Check if we can login with the provided data
