@@ -177,14 +177,14 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            boolean reachable;
+            connAdapter.trustAllCertificates();
+            boolean reachable = false;
             try {
-                reachable = connAdapter.isReachable("http://selfservice.campus-dual.de/");
-            } catch (IOException e) {
-                return false;
+                reachable = connAdapter.isReachable("https://erp.campus-dual.de/sap/bc/webdynpro/sap/zba_initss?uri=https%3a%2f%2fselfservice.campus-dual.de%2findex%2flogin&sap-client=100&sap-language=DE#");
+                } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            connAdapter.trustAllCertificates();
             boolean UserCheck =connAdapter.logInconnection(getuserid(),getuserhash());
 
             return (reachable && UserCheck);
