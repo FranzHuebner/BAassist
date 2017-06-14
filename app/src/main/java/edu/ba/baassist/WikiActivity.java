@@ -15,7 +15,7 @@ import java.net.URLConnection;
 public class WikiActivity extends BaseActivity {
 
     private WebView webView;
-    String WikiURL = "https://raw.githubusercontent.com/FranzHuebner/BAassist/master/ba_wiki_host";
+    String WikiURL = "http://raw.githubusercontent.com/FranzHuebner/BAassist/master/ba_wiki_host";
 
 
     @Override
@@ -33,12 +33,11 @@ public class WikiActivity extends BaseActivity {
         try {
             reachWiki = connAdapter.isReachable(WikiURL);
         } catch (IOException e) {
-            e.printStackTrace();
-            reachWiki=false;
+            reachWiki = false;
         }
 
 
-        if(reachWiki) {
+        if(reachWiki){
             webView = (WebView) findViewById(R.id.webView1);
             webView.getSettings().setJavaScriptEnabled(false);
             webView.loadUrl(WikiURL);
@@ -47,8 +46,8 @@ public class WikiActivity extends BaseActivity {
 //            toast.show();
             webView = (WebView) findViewById(R.id.webView1);
             webView.getSettings().setJavaScriptEnabled(false);
-            webView.loadUrl("https://www.google.de/");
-        }
+            webView.loadUrl("http://www.google.de/");
+       }
 
     }
 

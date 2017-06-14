@@ -5,6 +5,8 @@ package edu.ba.baassist;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,15 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-
-import java.net.URL;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -135,30 +129,25 @@ public class LoginActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
 
@@ -182,27 +171,26 @@ public class LoginActivity extends AppCompatActivity {
 
         //public get method for userid
         public String getuserid(){
-            return (username);
+             return (username);
         }
 
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            boolean reachable = false;
+            boolean reachable;
             try {
-               reachable = connAdapter.isReachable("http://selfservice.campus-dual.de/");
-                }
-             catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if(reachable){
-                return true;
-            }
-            else{
+                reachable = connAdapter.isReachable("http://selfservice.campus-dual.de/");
+            } catch (IOException e) {
                 return false;
             }
+
+            connAdapter.trustAllCertificates();
+            boolean UserCheck =connAdapter.logInconnection(getuserid(),getuserhash());
+
+            return (reachable && UserCheck);
+
         }
+
 
         @Override
         protected void onPostExecute(final Boolean success) {
@@ -219,7 +207,9 @@ public class LoginActivity extends AppCompatActivity {
                 //after wrong connection show dialog
                 AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                 alertDialog.setTitle("Fehler bei der Verbindung");
-                alertDialog.setMessage("Es ist ein Fehler bei der Verbindung zu Campus-Dual aufgetreten!");
+                alertDialog.setMessage("Es ist ein Fehler bei der Verbindung zu Campus-Dual aufgetreten!" +
+                        " Bitte überprüfe deine Userid und deinen Userhash." +
+                        " Für weitere Fragen nutze bitte:");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
