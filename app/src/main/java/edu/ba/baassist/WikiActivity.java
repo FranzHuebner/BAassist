@@ -1,5 +1,6 @@
 package edu.ba.baassist;
 
+import android.app.Activity;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class WikiActivity extends BaseActivity {
+public class WikiActivity extends Activity {
 
     private WebView webView;
     String WikiURL = "http://raw.githubusercontent.com/FranzHuebner/BAassist/master/ba_wiki_host";
@@ -23,20 +24,13 @@ public class WikiActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wiki);
 
-        LayoutInflater inflater = getLayoutInflater();
-        getWindow().addContentView(inflater.inflate(R.layout.activity_navigation, null), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        boolean reachWiki;
+        boolean reachWiki=false;
         try {
             reachWiki = connAdapter.isReachable(WikiURL);
         } catch (IOException e) {
-            reachWiki = false;
+            e.printStackTrace();
         }
-
-
+      
         if(reachWiki){
             webView = (WebView) findViewById(R.id.webView1);
             webView.getSettings().setJavaScriptEnabled(false);
@@ -50,6 +44,8 @@ public class WikiActivity extends BaseActivity {
        }
 
     }
+
+
 
 }
 
