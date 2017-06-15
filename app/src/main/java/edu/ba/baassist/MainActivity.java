@@ -1,11 +1,7 @@
 package edu.ba.baassist;
 
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +13,10 @@ import android.view.MenuItem;
 
 import java.util.Calendar;
 
+import edu.ba.fragments.AboutFragment;
 import edu.ba.fragments.MainFragment;
+import edu.ba.fragments.SettingsFragment;
+import edu.ba.fragments.StatusFragment;
 import edu.ba.fragments.WikiFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -96,11 +95,12 @@ public class MainActivity extends AppCompatActivity
                 fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
         } else if (id == R.id.nav_wiki) {
                 fm.beginTransaction().replace(R.id.content_frame, new WikiFragment()).commit();
+        } else if (id == R.id.nav_status) {
+                fm.beginTransaction().replace(R.id.content_frame, new StatusFragment()).commit();
         } else if (id == R.id.nav_ueber) {
-
-
+                fm.beginTransaction().replace(R.id.content_frame, new AboutFragment()).commit();
         } else if (id == R.id.nav_settings) {
-
+                fm.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
         }
 
 

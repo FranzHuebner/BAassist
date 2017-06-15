@@ -13,9 +13,9 @@
             android:title="BA-Wiki" />
 
         <item
-            android:id="@+id/nav_results"
+            android:id="@+id/nav_status"
             android:icon="@drawable/ic_create_black_24dp"
-            android:title="Klausurergebnisse" />
+            android:title="Status des Studiums" />
 
     </group>
 
