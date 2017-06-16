@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
     }
 
+
     private void attemptLogin() {
         if (mAuthTask != null) return;
 
@@ -151,8 +152,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String username;
         private final String mHash;
@@ -163,21 +163,8 @@ public class LoginActivity extends AppCompatActivity {
             mHash = hash;
         }
 
-        //public get method for userhash
-        public String getuserhash(){
-            return (mHash);
-        }
-
-
-        //public get method for userid
-        public String getuserid(){
-             return (username);
-        }
-
-
         @Override
         protected Boolean doInBackground(Void... params) {
-            connAdapter.trustAllCertificates();
             boolean reachable = false;
             try {
                 reachable = connAdapter.isReachable("https://erp.campus-dual.de/sap/bc/webdynpro/sap/zba_initss?uri=https%3a%2f%2fselfservice.campus-dual.de%2findex%2flogin&sap-client=100&sap-language=DE#");
@@ -185,11 +172,14 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            boolean UserCheck =connAdapter.logInconnection(getuserid(),getuserhash());
+            boolean UserCheck =connAdapter.logInconnection(username,mHash);
+            connAdapter.setGlobalHash(mHash);
+            connAdapter.setGlobalId(username);
 
             return (reachable && UserCheck);
 
         }
+
 
 
         @Override
@@ -198,7 +188,6 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 //go-to main activity and register account
 
