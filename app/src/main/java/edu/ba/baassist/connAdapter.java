@@ -1,6 +1,8 @@
 package edu.ba.baassist;
 
 
+import android.os.StrictMode;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,15 +19,28 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import edu.ba.fragments.StatusFragment;
+
 /**
  * Connection Adapter for Campus Dual
  */
 
 public class connAdapter {
 
+    public static Object UserGlobal;
+    public static Object HashGlobal;
+
+
+    public static void setGlobalId(String Id){
+        UserGlobal = Id;
+    }
+
+    public static void setGlobalHash(String Hash){
+        HashGlobal = Hash;
+    }
     //function to get the wrap the content provided by campus-dual to a string
     public static String getUrlContents(String theUrl) {
-
+        trustAllCertificates();
         StringBuilder content = new StringBuilder();
 
         try{
@@ -82,7 +97,7 @@ public class connAdapter {
 
     // check if the website is online
    public static boolean isReachable(String urlinput) throws IOException {
-
+       trustAllCertificates();
        HttpsURLConnection conn = (HttpsURLConnection) new URL(urlinput).openConnection();
        conn.setRequestMethod("HEAD");
        conn.setRequestProperty( "Accept-Encoding","");
@@ -112,14 +127,13 @@ public class connAdapter {
     //get current Semester
     public static String getsemester(String username, String hash) {
 
-       String Url ="https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash;
-
-        return getUrlContents(Url);
+        String Url ="https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash;
+        String test=getUrlContents(Url);
+        return test;
     }
 
     //get the credits of the User
     static public String getcredits(String username, String hash){
-
         String Url ="https://selfservice.campus-dual.de/dash/getcp?user="+username+"&hash="+hash;
 
         return getUrlContents(Url);
@@ -136,8 +150,7 @@ public class connAdapter {
 
     //get the calc of the user from start to end
     public static String getcal(String username, String hash, String start, String end) {
-
-       String Url = "https://selfservice.campus-dual.de/room/json?userid=" + username + "&hash=" + hash + "&start=" + start + "&end=" + end;
+        String Url = "https://selfservice.campus-dual.de/room/json?userid=" + username + "&hash=" + hash + "&start=" + start + "&end=" + end;
 
         return getUrlContents(Url);
 
