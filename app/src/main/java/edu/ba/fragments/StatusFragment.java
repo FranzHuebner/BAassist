@@ -45,11 +45,20 @@ public class StatusFragment extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        String[] status= output.split("\n");            //Array der alle Elemente enthält die über den Async-Task geholt werden
 
-        String actSemester;
+        String actSemester = status[0].replaceAll("\"","");          //Strings für die Ausgabe vorbereiten
+        String actCredits = status[1];
+
+        String[] exams = status[2].split(",");
 
         TextView semester = (TextView) rootView.findViewById(R.id.textViewActSemester);
-        semester.setText("Aktuelles Semester:"+output);
+        semester.setText("\nAktuelles Semester: "+actSemester
+                            +"\n\nCredits: "+actCredits+" von 180"
+                            +"\n\nPrüfungen:"
+                            +"\nGesamt"+exams[0].replaceAll("\"","").replaceAll("\\{EXAMS","")
+                            +"\nErfolgreich"+exams[1].replaceAll("\"","").replaceAll("SUCCESS","")
+                            +"\nnicht Erfolgreich"+exams[2].replaceAll("\"","").replaceAll("FAILURE",""));
 
         return rootView;
     }
@@ -67,7 +76,7 @@ public class StatusFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void...params){
-            String url =connAdapter.getsemester(userName,hashValue);
+            String url =connAdapter.getsemester(userName,hashValue) + connAdapter.getcredits(userName,hashValue) + connAdapter.getexams(userName,hashValue);
             return url;
         }
 
@@ -77,6 +86,8 @@ public class StatusFragment extends Fragment {
         }
 
     }
-}
+
+
+ }
 
 
