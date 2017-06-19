@@ -38,16 +38,8 @@ public class MainFragment extends Fragment{
 
 
 
-        String output="";
-        try {
-            output= new timetableTask(user,hash,startT,endT)
-                    .execute()
-                    .get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        String output=connAdapter.getUserCalc();
+
 
         String[] timeTableData = output.split("title");
 //                {
@@ -95,28 +87,6 @@ public class MainFragment extends Fragment{
         timetableListView.setAdapter(timetableListeAdapter);
 
         return rootView;
-    }
-
-    public class timetableTask extends AsyncTask<Void, Void,String> {
-
-        private String userName;
-        private String hashValue;
-        private String startTime;
-        private String endTime;
-
-        timetableTask(String id, String hash, String start, String end){
-            userName=id;
-            hashValue=hash;
-            startTime=start;
-            endTime=end;
-        }
-
-        @Override
-        protected String doInBackground(Void...params){
-            String url = connAdapter.getcal(userName,hashValue, startTime, endTime);
-            return url;
-        }
-
     }
 
 

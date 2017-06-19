@@ -34,22 +34,12 @@ public class StatusFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_status, container, false);
 
-        String output="";
-        try {
-            output= new Semestertask(user,hash)
-                    .execute()
-                    .get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        String[] status= output.split("\n");            //Array der alle Elemente enthält die über den Async-Task geholt werden
 
-        String actSemester = status[0].replaceAll("\"","");          //Strings für die Ausgabe vorbereiten
-        String actCredits = status[1];
 
-        String[] exams = status[2].split(",");
+        String actSemester = connAdapter.getUserFs() ;          //Strings für die Ausgabe vorbereiten
+        String actCredits = connAdapter.getUserCredits();
+
+        String[] exams = connAdapter.getUserExams().split(",");
 
         TextView semester = (TextView) rootView.findViewById(R.id.textViewActSemester);
         semester.setText("\nAktuelles Semester: "+actSemester
@@ -60,30 +50,6 @@ public class StatusFragment extends Fragment {
                             +"\nnicht Erfolgreich"+exams[2].replaceAll("\"","").replaceAll("FAILURE",""));
 
         return rootView;
-    }
-
-
-    public class Semestertask extends AsyncTask<Void, Void,String> {
-
-        private String userName;
-        private String hashValue;
-
-        Semestertask(String id, String hash){
-            userName=id;
-            hashValue=hash;
-        }
-
-        @Override
-        protected String doInBackground(Void...params){
-            String url =connAdapter.getsemester(userName,hashValue) + connAdapter.getcredits(userName,hashValue) + connAdapter.getexams(userName,hashValue);
-            return url;
-        }
-
-        protected String onPostExecute(String... url) {
-            String finish=url[0];
-            return finish;
-        }
-
     }
 
 
