@@ -109,8 +109,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public static long getActSeconds(){
-        long milli = System.currentTimeMillis();
-        return milli/1000;
-    }
 }

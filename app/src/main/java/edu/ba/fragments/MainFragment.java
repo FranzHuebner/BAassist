@@ -28,8 +28,9 @@ public class MainFragment extends Fragment{
     String user= (String) connAdapter.UserGlobal;
     String hash= (String) connAdapter.HashGlobal;
     String useString = user+"."+hash;
-    String startT = String.valueOf(MainActivity.getActSeconds());
-    String endT = String.valueOf(MainActivity.getActSeconds()+1209600);
+
+    String startT = String.valueOf(connAdapter.StartTime());
+    String endT = String.valueOf(connAdapter.EndTime(Long.valueOf(startT))+3024000);
 
     @Nullable
     @Override
@@ -114,11 +115,6 @@ public class MainFragment extends Fragment{
         protected String doInBackground(Void...params){
             String url = connAdapter.getcal(userName,hashValue, startTime, endTime);
             return url;
-        }
-
-        protected String onPostExecute(String... url) {
-            String finish=url[0];
-            return finish;
         }
 
     }
