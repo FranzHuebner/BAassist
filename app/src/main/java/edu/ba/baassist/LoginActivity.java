@@ -196,7 +196,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //Set times for the url.
                 String startT = String.valueOf(connAdapter.StartTime());
-                String endT = String.valueOf(connAdapter.EndTime(Long.valueOf(startT))+3024000);
+                String endT = String.valueOf(connAdapter.EndTime(Long.valueOf(startT)+3024000));
 
                 String output="";
                 try {
