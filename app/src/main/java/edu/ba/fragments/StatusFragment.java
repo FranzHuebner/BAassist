@@ -26,7 +26,6 @@ public class StatusFragment extends Fragment {
 
     String user= (String) connAdapter.UserGlobal;
     String hash= (String) connAdapter.HashGlobal;
-    String useString = user+"."+hash;
 
 
     @Nullable
