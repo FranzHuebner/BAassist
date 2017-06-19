@@ -109,9 +109,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public int getActSeconds(){
-        Calendar c = Calendar.getInstance();
-        int seconds = c.get(Calendar.SECOND);
-        return seconds;
+    public static long getActSeconds(){
+        long milli = System.currentTimeMillis();
+        return milli/1000;
     }
 }
