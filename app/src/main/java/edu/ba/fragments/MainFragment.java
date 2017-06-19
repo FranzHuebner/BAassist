@@ -29,7 +29,7 @@ public class MainFragment extends Fragment{
     String hash= (String) connAdapter.HashGlobal;
     String useString = user+"."+hash;
     String startT = String.valueOf(MainActivity.getActSeconds());
-    String endT = String.valueOf(MainActivity.getActSeconds()+3024000);
+    String endT = String.valueOf(MainActivity.getActSeconds()+1209600);
 
     @Nullable
     @Override
@@ -63,7 +63,23 @@ public class MainFragment extends Fragment{
 //
 //        };
 
+
+        for(int i=1; i<timeTableData.length; i++){
+
+            String[] temp=timeTableData[i].split(",");      //Daten-String in verschiedene Atrrays zur Weiterverarbeitung aufteilen
+
+            String subject = temp[0];
+            String teacher = temp[9];
+            String beginn = temp[1];
+            String end=temp[2];
+
+
+            timeTableData[i]=subject+"\n"+teacher+"\n"+beginn+"-"+end;
+            timeTableData[i]=timeTableData[i].replaceAll("[\"\\[\\{\\}\\]]","");        //Sonderzeichen entfernen
+        }
+        timeTableData[0]="Stundenplan";
         List<String> timeTableList = new ArrayList<>(Arrays.asList(timeTableData));
+
 
         ArrayAdapter <String> timetableListeAdapter =
                 new ArrayAdapter<>(
