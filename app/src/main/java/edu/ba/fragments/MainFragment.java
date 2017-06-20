@@ -20,7 +20,8 @@ import edu.ba.baassist.R;
 import edu.ba.baassist.connAdapter;
 
 /**
- * Created by richa on 14.06.2017.
+ * Standard fragment which is the base of the Fragment-Manager.
+ * This fragment contains the timetable.
  */
 
 public class MainFragment extends Fragment{
@@ -52,10 +53,10 @@ public class MainFragment extends Fragment{
             String room=temp[7];
 
 
-            timeTableData[i]=subject+"\n"+teacher+"\n"+room+"\n"+beginn+"-"+end;
+            timeTableData[i]=subject+"\n"+teacher+"\n"+room+"\n"+connAdapter.convertUnixtoNormal(convertTimeStringToInteger(beginn))+"-"+connAdapter.convertUnixtoNormal(convertTimeStringToInteger(end));        //Ausgabe String vorbereiten
             timeTableData[i]=timeTableData[i].replaceAll("[\"\\[\\{\\}\\]]","");        //Sonderzeichen entfernen
-            String beginnOfLesson = beginn.substring(beginn.indexOf(":")+1);
-            int beginnOfLessonInt = Integer.parseInt(beginnOfLesson.toString());        //Integer der Startzeit
+
+            int beginnOfLessonInt = convertTimeStringToInteger(beginn);        //Integer der Startzeit
             if(beginnOfLessonInt>=ActTime){
                 timeTableDisplay[j]=timeTableData[i];
                 j++;
@@ -78,6 +79,12 @@ public class MainFragment extends Fragment{
         timetableListView.setAdapter(timetableListeAdapter);
 
         return rootView;
+    }
+
+    public int convertTimeStringToInteger(String input){                        //Method to convert Time String to Int
+        String begOfLesson = input.substring(input.indexOf(":")+1);
+        int begOfLessonInt = Integer.parseInt(begOfLesson.toString());        //Integer der Startzeit
+        return begOfLessonInt;
     }
 
 
