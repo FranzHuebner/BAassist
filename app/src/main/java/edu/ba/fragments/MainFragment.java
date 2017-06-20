@@ -25,12 +25,8 @@ import edu.ba.baassist.connAdapter;
 
 public class MainFragment extends Fragment{
 
-    String user= (String) connAdapter.UserGlobal;
-    String hash= (String) connAdapter.HashGlobal;
-    String useString = user+"."+hash;
+    long ActTime = System.currentTimeMillis()/1000;
 
-    String startT = String.valueOf(connAdapter.StartTime());
-    String endT = String.valueOf(connAdapter.EndTime(Long.valueOf(startT))+3024000);
 
     @Nullable
     @Override
@@ -41,22 +37,10 @@ public class MainFragment extends Fragment{
         String output=connAdapter.getUserCalc();
 
 
-        String[] timeTableData = output.split("title");
-//                {
-//                "INGG",
-//                "Linux",
-//                "Java",
-//                "Elektronik-Analog",
-//                "Englisch",
-//                "WIARB",
-//                "Elektronik-Analog",
-//                "RTG",
-//                "Mathe",
-//                "Elektronik Praktikum"
-//
-//        };
+        String[] timeTableData = output.split("title");         //Array der alle Daten enthält
+        String[] timeTableDisplay = new String[timeTableData.length];       //Array der für die Ausgabe an akt. Datum verwendet wird
 
-
+        int j = 0;      //Zählvariable für Display-Array
         for(int i=1; i<timeTableData.length; i++){
 
             String[] temp=timeTableData[i].split(",");      //Daten-String in verschiedene Atrrays zur Weiterverarbeitung aufteilen
@@ -65,13 +49,20 @@ public class MainFragment extends Fragment{
             String teacher = temp[9];
             String beginn = temp[1];
             String end=temp[2];
+            String room=temp[7];
 
 
-            timeTableData[i]=subject+"\n"+teacher+"\n"+beginn+"-"+end;
+            timeTableData[i]=subject+"\n"+teacher+"\n"+room+"\n"+beginn+"-"+end;
             timeTableData[i]=timeTableData[i].replaceAll("[\"\\[\\{\\}\\]]","");        //Sonderzeichen entfernen
+            String beginnOfLesson = beginn.substring(beginn.indexOf(":")+1);
+            int beginnOfLessonInt = Integer.parseInt(beginnOfLesson.toString());        //Integer der Startzeit
+            if(beginnOfLessonInt>=ActTime){
+                timeTableDisplay[j]=timeTableData[i];
+                j++;
+            }
         }
         timeTableData[0]="Stundenplan";
-        List<String> timeTableList = new ArrayList<>(Arrays.asList(timeTableData));
+        List<String> timeTableList = new ArrayList<>(Arrays.asList(timeTableDisplay));
 
 
         ArrayAdapter <String> timetableListeAdapter =
