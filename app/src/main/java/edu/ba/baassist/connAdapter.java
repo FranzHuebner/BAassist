@@ -161,8 +161,7 @@ public class connAdapter {
        conn.setRequestMethod("HEAD");
        conn.setRequestProperty( "Accept-Encoding","");
        int response = conn.getResponseCode();
-       int retest = response;
-        //HTTP -> OK (200) -> (304) ok for other site
+       //HTTP -> OK (200) -> (304) ok for other site
        return ((response == HttpsURLConnection.HTTP_OK) || (response ==304) || (response ==100));
    }
 
@@ -186,8 +185,7 @@ public class connAdapter {
     //Get current Semester.
     public static String getsemester(String username, String hash) {
         String Url ="https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash;
-        String test=getUrlContents(Url);
-        return test;
+        return getUrlContents(Url);
     }
 
     //Get the credits of the User.
@@ -217,25 +215,21 @@ public class connAdapter {
     public static String StartTime(){
         long milli = System.currentTimeMillis();
         milli=milli/1000;
-        String milliS = String.valueOf(milli);
-        return milliS;
+        return String.valueOf(milli);
     }
     //Function to form the url to download the cal.
     public static String EndTime(long input){
-        String End = String.valueOf(input);
-        return End;
+        return String.valueOf(input);
     }
     //Convert normal time to unix time.
     public static String convertNormaltoUnix(Date input){
         long zw=input.getTime();
-        String output= String.valueOf(zw);
-        return output;
+        return String.valueOf(zw);
     }
     //Convert unix time to normal time.
     public static String convertUnixtoNormal(long timeStamp){
         java.util.Date time=new java.util.Date((long)timeStamp*1000);
-        String Output= time.toString();
-        return Output;
+        return time.toString();
     }
 
 

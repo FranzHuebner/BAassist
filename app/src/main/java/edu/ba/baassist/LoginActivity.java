@@ -189,7 +189,6 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             //Reset params.
             mAuthTask = null;
-            showProgress(false);
 
             //Check if login was successful.
             if (success) {
@@ -232,8 +231,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 //Everything is fine, now go to the next activity.
+                showProgress(false);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
             } else {
 
                 //after wrong connection show dialog
@@ -241,7 +240,7 @@ public class LoginActivity extends AppCompatActivity {
                 alertDialog.setTitle("Fehler bei der Verbindung");
                 alertDialog.setMessage("Es ist ein Fehler bei der Verbindung zu Campus-Dual aufgetreten!" +
                         " Bitte überprüfe deine Userid und deinen Userhash." +
-                        " Für weitere Fragen nutze bitte:");
+                        " Bitte überprüfe deine Internetverbindung. ");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
