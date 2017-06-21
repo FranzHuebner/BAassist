@@ -1,4 +1,4 @@
-package edu.ba.fragments;
+package edu.ba.baassist;
 
 import android.content.Context;
 
