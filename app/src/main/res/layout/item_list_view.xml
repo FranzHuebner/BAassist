@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/itemListViewTxtSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Avocado"
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/itemListViewTxtTeacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Rs. 50/kg"
+        android:textSize="18sp"
+        android:textColor="#FFF"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
+        android:id="@+id/itemListViewTxtTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Rs. 50/kg"
+        android:textSize="18sp"
+        android:textColor="#FFF"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"/>
+
+</RelativeLayout>
