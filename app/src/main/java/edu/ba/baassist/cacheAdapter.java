@@ -1,4 +1,4 @@
-package edu.ba.fragments;
+package edu.ba.baassist;
 
 import android.content.Context;
 
@@ -16,9 +16,12 @@ import java.io.InputStreamReader;
 
 public class cacheAdapter{
 
-    Context fileContext;
+    public static Context fileContext;
+
 
     //Save calender to memory.
+
+
     public boolean saveCaltoMem(String cal){
 
         String filename = "userCal";
@@ -352,6 +355,18 @@ public class cacheAdapter{
         }else {
 
             return "Datei nicht vorhanden.";
+        }
+
+    }
+
+    public boolean deleteEntry(String input){
+        if (getFileExistence(input)){
+
+            fileContext.deleteFile(input);
+            return true;
+
+        }else {
+            return false;
         }
     }
 }
