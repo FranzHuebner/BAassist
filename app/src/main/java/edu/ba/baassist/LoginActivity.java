@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
@@ -42,7 +44,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        cacheAdapter.fileContext =  getApplicationContext();
+
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mUsername = (AutoCompleteTextView) findViewById(R.id.username);
@@ -58,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Check if cache is avaiable.
+
         Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -70,7 +79,79 @@ public class LoginActivity extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    //Automate the login process.
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(checkCache()){
+            try {
+                getLoginData();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                getOtherData();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        }
+    }
+
+    //Check if data is inside of cache.
+    private boolean checkCache(){
+        boolean exist1 = new cacheAdapter().getFileExistence("userGlobal");
+        boolean exist2 = new cacheAdapter().getFileExistence("HashGlobal");
+        boolean exist3 = new cacheAdapter().getFileExistence("userExams");
+        boolean exist4 = new cacheAdapter().getFileExistence("userCredits");
+        boolean exist5 = new cacheAdapter().getFileExistence("userFs");
+        boolean exist6 = new cacheAdapter().getFileExistence("userCal");
+
+        if(exist1 && exist2 && exist3 && exist4 && exist5 && exist6){
+            try {
+                getLoginData();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }else {
+            return false;
+        }
+    }
+    //Get the logindata from cache.
+    private static void getLoginData () throws FileNotFoundException {
+        String user =new cacheAdapter().getUserGlobalfromMem();
+        String hash = new cacheAdapter().getHashGlobalfromMem();
+        connAdapter.setGlobalId(user);
+        connAdapter.setGlobalHash(hash);
+    }
+
+    //Get other information from cache.
+    private static void getOtherData() throws FileNotFoundException{
+        String cal =new cacheAdapter().getCalfromMem();
+        String fs  =new cacheAdapter().getFsfromMem();
+        String exams=new cacheAdapter().getExamsfromMem();
+        String credits= new cacheAdapter().getCreditsfromMem();
+        connAdapter.setUserExams(exams);
+        connAdapter.setUserCredits(credits);
+        connAdapter.setUserFs(fs);
+        connAdapter.setUserCalc(cal);
+    }
+
+    //Set information to cache
+    private static void setCache(){
+        new cacheAdapter().saveCaltoMem(connAdapter.getUserCalc());
+        new cacheAdapter().saveCredittoMem(connAdapter.getUserCredits());
+        new cacheAdapter().saveExamstoMem(connAdapter.getUserExams());
+        new cacheAdapter().saveFstoMem(connAdapter.getUserFs());
+        new cacheAdapter().saveHashGlobaltoMem(connAdapter.getGlobalHash());
+        new cacheAdapter().saveUserGlobaltoMem(connAdapter.getGlobalId());
+    }
+
+
     private void attemptLogin() {
+
+
         if (mAuthTask != null) return;
 
         // Reset errors.
@@ -84,8 +165,14 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid hash.
-        if (!TextUtils.isEmpty(hash) && !isPasswordValid(hash)) {
+        if (!isPasswordValid(hash)) {
             mHashView.setError(getString(R.string.error_invalid_hash));
+            focusView = mHashView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(hash)) {
+            mHashView.setError(getString(R.string.error_field_required));
             focusView = mHashView;
             cancel = true;
         }
@@ -211,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Set global value of the cal
                 connAdapter.setUserCalc(output);
 
-                String output2="";
+                String output2;
                 try {
                     output2= new Semestertask(connAdapter.getGlobalId(),connAdapter.getGlobalHash())
                             .execute()
@@ -229,12 +316,13 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
+                //set information to cache
+                setCache();
                 //Everything is fine, now go to the next activity.
                 showProgress(false);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             } else {
-
+                showProgress(false);
                 //after wrong connection show dialog
                 AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                 alertDialog.setTitle("Fehler bei der Verbindung");
@@ -282,6 +370,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
 
     public class Semestertask extends AsyncTask<Void, Void,String> {
 
