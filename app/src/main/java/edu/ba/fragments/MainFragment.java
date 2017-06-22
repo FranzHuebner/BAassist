@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -62,9 +64,11 @@ public class MainFragment extends Fragment{
                 j++;
             }
         }
+
+        //Cleaning the null-elements from the array to ensure we can´t get a nullpointer exc with our listview.
+        timeTableDisplay = clean(timeTableDisplay);
         timeTableData[0]="Stundenplan";
         List<String> timeTableList = new ArrayList<>(Arrays.asList(timeTableDisplay));
-
 
         ArrayAdapter <String> timetableListeAdapter =
                 new ArrayAdapter<>(
@@ -83,9 +87,20 @@ public class MainFragment extends Fragment{
 
     public int convertTimeStringToInteger(String input){                        //Method to convert Time String to Int
         String begOfLesson = input.substring(input.indexOf(":")+1);
-        int begOfLessonInt = Integer.parseInt(begOfLesson.toString());        //Integer der Startzeit
-        return begOfLessonInt;
+        if(begOfLesson != null){
+
+            int begOfLessonInt = Integer.parseInt(begOfLesson);        //Integer der Startzeit
+            return begOfLessonInt;
+        }else {
+            return 2;
+        }
     }
 
+    //Function to remove null elements in the array
+    public static String[] clean(final String[] v) {
+        List<String> list = new ArrayList<String>(Arrays.asList(v));
+        list.removeAll(Collections.singleton(null));
+        return list.toArray(new String[list.size()]);
+    }
 
 }

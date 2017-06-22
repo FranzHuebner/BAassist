@@ -85,11 +85,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         if(checkCache()){
             try {
-                getLoginData();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 getOtherData();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
