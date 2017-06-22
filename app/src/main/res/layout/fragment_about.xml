@@ -8,5 +8,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textStyle="bold"
+        android:textSize="20sp"
         android:text="BAassist\n\nEine Campus-Dual App von:\nFranz Hübner\nRichard Walter\n\nBA Dresden 2017" />
 </FrameLayout>
