@@ -71,7 +71,7 @@ public class MainFragment extends Fragment{
                         getActivity(), //aktuelle Umgebung (diese Activity)
                         R.layout.list_item_timetable, // ID der XML-Layout Datei
                         R.id.list_item_timetable_textview, // ID des TextViews
-                        timeTableList); // Beispieldaten aus der ArrayList
+                        timeTableDisplay); // Beispieldaten aus der ArrayList
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -83,9 +83,12 @@ public class MainFragment extends Fragment{
 
     public int convertTimeStringToInteger(String input){                        //Method to convert Time String to Int
         String begOfLesson = input.substring(input.indexOf(":")+1);
-        int begOfLessonInt = Integer.parseInt(begOfLesson.toString());        //Integer der Startzeit
-        return begOfLessonInt;
+        if(begOfLesson != null){
+
+            int begOfLessonInt = Integer.parseInt(begOfLesson);        //Integer der Startzeit
+            return begOfLessonInt;
+        }else {
+            return 0;
+        }
     }
-
-
 }
