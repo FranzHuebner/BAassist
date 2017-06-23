@@ -16,13 +16,13 @@ import java.io.InputStreamReader;
 
 public class cacheAdapter{
 
-    public static Context fileContext;
+    static Context fileContext;
 
 
     //Save calender to memory.
 
 
-    public boolean saveCaltoMem(String cal){
+    boolean saveCaltoMem(String cal){
 
         String filename = "userCal";
 
@@ -40,7 +40,7 @@ public class cacheAdapter{
     }
 
     //save semester to memory.
-    public boolean saveFstoMem(String Fs){
+    boolean saveFstoMem(String Fs){
 
         String filename = "userFs";
 
@@ -58,7 +58,7 @@ public class cacheAdapter{
     }
 
     //save credits to memory.
-    public boolean saveCredittoMem(String Credits){
+    boolean saveCredittoMem(String Credits){
 
         String filename = "userCredits";
 
@@ -76,7 +76,7 @@ public class cacheAdapter{
     }
 
     //Save exams to memory.
-    public boolean saveExamstoMem(String Exams){
+    boolean saveExamstoMem(String Exams){
 
         String filename = "userExams";
 
@@ -94,7 +94,7 @@ public class cacheAdapter{
     }
 
     //Save user id to memory.
-    public boolean saveUserGlobaltoMem(String user){
+    boolean saveUserGlobaltoMem(String user){
 
         String filename = "userGlobal";
 
@@ -111,8 +111,8 @@ public class cacheAdapter{
         }
     }
 
-    //Save hash to memory.
-    public boolean saveHashGlobaltoMem(String hash){
+    //Save the hash to internal memory.
+    boolean saveHashGlobaltoMem(String hash){
 
         String filename = "HashGlobal";
 
@@ -129,13 +129,14 @@ public class cacheAdapter{
         }
     }
 
+    //Check if a file is existent.
     public boolean getFileExistence(String fileName){
         File file = fileContext.getFileStreamPath(fileName);
         return file.exists();
     }
 
     //Method to get the calender from memory.
-    public String getCalfromMem() throws FileNotFoundException {
+    String getCalfromMem() throws FileNotFoundException {
        
         if (getFileExistence("userCal")){
            
@@ -164,7 +165,7 @@ public class cacheAdapter{
     }
 
     //Method to get the semester from memory.
-    public String getFsfromMem() throws FileNotFoundException {
+    String getFsfromMem() throws FileNotFoundException {
 
         if (getFileExistence("userFs")){
 
@@ -193,7 +194,7 @@ public class cacheAdapter{
     }
 
     //Method to get the credits from memory.
-    public String getCreditsfromMem() throws FileNotFoundException {
+    String getCreditsfromMem() throws FileNotFoundException {
 
         if (getFileExistence("userCredits")){
 
@@ -222,7 +223,7 @@ public class cacheAdapter{
     }
 
     //Method to get exam status from memory.
-    public String getExamsfromMem() throws FileNotFoundException {
+    String getExamsfromMem() throws FileNotFoundException {
 
         if (getFileExistence("userExams")){
 
@@ -251,7 +252,7 @@ public class cacheAdapter{
     }
 
     //Method to get the user id from memory.
-    public String getUserGlobalfromMem() throws FileNotFoundException {
+    String getUserGlobalfromMem() throws FileNotFoundException {
 
         if (getFileExistence("userGlobal")){
 
@@ -278,7 +279,6 @@ public class cacheAdapter{
             return "Datei nicht vorhanden.";
         }
     }
-
 
 
     //method to check if the data is up to date and replace it with newer one if given.
@@ -329,7 +329,7 @@ public class cacheAdapter{
     }
 
     //get the global hash of the User from memory.
-    public String getHashGlobalfromMem() throws FileNotFoundException {
+    String getHashGlobalfromMem() throws FileNotFoundException {
 
         if (getFileExistence("HashGlobal")){
 
@@ -359,6 +359,7 @@ public class cacheAdapter{
 
     }
 
+    //Delete an entry in the cache.
     public boolean deleteEntry(String input){
         if (getFileExistence(input)){
 

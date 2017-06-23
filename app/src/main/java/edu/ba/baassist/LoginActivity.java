@@ -6,7 +6,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -27,16 +26,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import edu.ba.fragments.MainFragment;
-import edu.ba.fragments.StatusFragment;
-
 
 public class LoginActivity extends AppCompatActivity {
 
-    //params
+    //Params.
     private UserLoginTask mAuthTask = null;
 
-    // UI elements
+    // UI elements.
     private AutoCompleteTextView mUsername;
     private EditText mHashView;
     private View mProgressView;
@@ -232,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Async tasks to pull dta from web to our client.
     //Does not interferer with our main thread.
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String username;
         private final String mHash;
@@ -284,9 +280,7 @@ public class LoginActivity extends AppCompatActivity {
                     output= new timetableTask(connAdapter.getGlobalId(),connAdapter.getGlobalHash(),startT,endT)
                             .execute()
                             .get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
 
@@ -305,9 +299,7 @@ public class LoginActivity extends AppCompatActivity {
                     connAdapter.setUserCredits(status[1]);
 
                     connAdapter.setUserExams(status[2]);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
 
@@ -341,7 +333,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public class timetableTask extends AsyncTask<Void, Void,String> {
+    private class timetableTask extends AsyncTask<Void, Void,String> {
 
         //Params.
         private String userName;
@@ -360,14 +352,13 @@ public class LoginActivity extends AppCompatActivity {
         //get Content
         @Override
         protected String doInBackground(Void...params){
-            String url = connAdapter.getcal(userName,hashValue, startTime, endTime);
-            return url;
+            return connAdapter.getcal(userName,hashValue, startTime, endTime);
         }
 
     }
 
 
-    public class Semestertask extends AsyncTask<Void, Void,String> {
+    private class Semestertask extends AsyncTask<Void, Void,String> {
 
         //Params.
         private String userName;
@@ -382,8 +373,7 @@ public class LoginActivity extends AppCompatActivity {
         //Get content.
         @Override
         protected String doInBackground(Void... params) {
-            String url = connAdapter.getsemester(userName, hashValue) + connAdapter.getcredits(userName, hashValue) + connAdapter.getexams(userName, hashValue);
-            return url;
+            return connAdapter.getsemester(userName, hashValue) + connAdapter.getcredits(userName, hashValue) + connAdapter.getexams(userName, hashValue);
         }
     }
 }

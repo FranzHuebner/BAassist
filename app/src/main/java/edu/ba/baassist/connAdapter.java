@@ -1,17 +1,13 @@
 package edu.ba.baassist;
 
 
-import android.os.StrictMode;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
-
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -19,9 +15,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
-
-import edu.ba.fragments.StatusFragment;
 
 /**
  * Connection Adapter for Campus Dual.
@@ -66,37 +59,31 @@ public class connAdapter {
 
     //Public getter-methods.
     public static String getUserCalc(){
-        String back = (String) UserCalc;
-        return (back);
+        return ((String) UserCalc);
     }
 
     public static String getUserFs(){
-        String back = (String) UserFs;
-        return (back);
+        return ((String) UserFs);
     }
 
     public static String getUserExams(){
-        String back = (String) UserExams;
-        return (back);
+        return ((String) UserExams);
     }
 
     public static String getUserCredits(){
-        String back = (String) UserCredits;
-        return (back);
+        return ((String) UserCredits);
     }
 
     public static String getGlobalId(){
-        String back = (String) UserGlobal;
-        return (back);
+        return ((String) UserGlobal);
     }
 
-    public static String getGlobalHash(){
-        String back = (String) HashGlobal;
-        return (back);
+    static String getGlobalHash(){
+        return ((String) HashGlobal);
     }
 
     //Function to open the streamreader and wrap the response to a string.
-    public static String getUrlContents(String theUrl) {
+    private static String getUrlContents(String theUrl) {
         trustAllCertificates();
         StringBuilder content = new StringBuilder();
 
@@ -123,7 +110,7 @@ public class connAdapter {
     }
 
     //trusting every CA-Certificate
-    public static void trustAllCertificates() {
+    private static void trustAllCertificates() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
@@ -166,7 +153,7 @@ public class connAdapter {
    }
 
     //Check if we can login with the provided data.
-    public static boolean logInconnection(String username, String hash){
+    static boolean logInconnection(String username, String hash){
 
        boolean trueFail =true;
        String output; //buffer to check against the failword
@@ -183,20 +170,20 @@ public class connAdapter {
     }
 
     //Get current Semester.
-    public static String getsemester(String username, String hash) {
+    static String getsemester(String username, String hash) {
         String Url ="https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash;
         return getUrlContents(Url);
     }
 
     //Get the credits of the User.
-    static public String getcredits(String username, String hash){
+    static String getcredits(String username, String hash){
         String Url ="https://selfservice.campus-dual.de/dash/getcp?user="+username+"&hash="+hash;
 
         return getUrlContents(Url);
     }
 
     //Get the finished exams of the user.
-    public static String getexams(String username, String hash){
+    static String getexams(String username, String hash){
 
         String Url ="https://selfservice.campus-dual.de/dash/getexamstats?user="+username+"&hash="+hash;
 
@@ -205,33 +192,33 @@ public class connAdapter {
     }
 
     //Get the calc of the user from start to end.
-    public static String getcal(String username, String hash, String start, String end) {
+    static String getcal(String username, String hash, String start, String end) {
         String Url = "https://selfservice.campus-dual.de/room/json?userid="+username+"&hash="+hash+"&start="+start+"&end="+end;
 
         return getUrlContents(Url);
 
     }
     //Function to form the url to download the cal.
-    public static String StartTime(){
+    static String StartTime(){
         long milli = System.currentTimeMillis();
         milli=milli/1000;
         return String.valueOf(milli);
     }
+
     //Function to form the url to download the cal.
-    public static String EndTime(long input){
+    static String EndTime(long input){
         return String.valueOf(input);
     }
+
     //Convert normal time to unix time.
     public static String convertNormaltoUnix(Date input){
         long zw=input.getTime();
         return String.valueOf(zw);
     }
+
     //Convert unix time to normal time.
     public static String convertUnixtoNormal(long timeStamp){
-        java.util.Date time=new java.util.Date((long)timeStamp*1000);
+        java.util.Date time=new java.util.Date(timeStamp *1000);
         return time.toString();
     }
-
-
-
 }
