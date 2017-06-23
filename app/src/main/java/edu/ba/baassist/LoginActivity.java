@@ -1,12 +1,9 @@
 package edu.ba.baassist;
 
- //Login to get the userdata and submit them to www.campus-dual.de
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,21 +20,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import edu.ba.fragments.MainFragment;
-import edu.ba.fragments.StatusFragment;
+/**
+ * Login activity to check if the user has an account on campus-dual.
+ * Use the given adapters to evaluate if there is a cache and if he is online.
+ * Goto MainActivity after completion.
+ */
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    //params
+    //Params.
     private UserLoginTask mAuthTask = null;
 
-    // UI elements
-    private AutoCompleteTextView mUsername;
+    // UI elements.
+    private AutoCompleteTextView mUserId;
     private EditText mHashView;
     private View mProgressView;
     private View mLoginFormView;
@@ -45,38 +46,43 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        //Set context for our adapter.
         cacheAdapter.fileContext =  getApplicationContext();
 
-
+        //Set up the login form.
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mUsername = (AutoCompleteTextView) findViewById(R.id.username);
+        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
+        mUserId = (AutoCompleteTextView) findViewById(R.id.username);
         mHashView = (EditText) findViewById(R.id.hash);
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+
+        //Actionlistener for HashView.
         mHashView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
                     attemptLogin();
                     return true;
                 }
+
                 return false;
             }
         });
 
-        //Check if cache is avaiable.
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mSignInButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+
     }
 
     //Automate the login process.
@@ -113,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
     }
-    //Get the logindata from cache.
+    //Get the login-data from cache.
     private static void getLoginData () throws FileNotFoundException {
         String user =new cacheAdapter().getUserGlobalfromMem();
         String hash = new cacheAdapter().getHashGlobalfromMem();
@@ -130,12 +136,12 @@ public class LoginActivity extends AppCompatActivity {
         connAdapter.setUserExams(exams);
         connAdapter.setUserCredits(credits);
         connAdapter.setUserFs(fs);
-        connAdapter.setUserCalc(cal);
+        connAdapter.setUserCal(cal);
     }
 
     //Set information to cache
     private static void setCache(){
-        new cacheAdapter().saveCaltoMem(connAdapter.getUserCalc());
+        new cacheAdapter().saveCaltoMem(connAdapter.getUserCal());
         new cacheAdapter().saveCredittoMem(connAdapter.getUserCredits());
         new cacheAdapter().saveExamstoMem(connAdapter.getUserExams());
         new cacheAdapter().saveFstoMem(connAdapter.getUserFs());
@@ -146,48 +152,49 @@ public class LoginActivity extends AppCompatActivity {
 
     private void attemptLogin() {
 
-
+        //Error->go back.
         if (mAuthTask != null) return;
 
-        // Reset errors.
-        mUsername.setError(null);
+        //Reset errors.
+        mUserId.setError(null);
         mHashView.setError(null);
 
-        // Store value for the next steps.
-        String username = mUsername.getText().toString();
+        //Store value for the next steps.
+        String username = mUserId.getText().toString();
         String hash = mHashView.getText().toString();
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid hash.
+        //Check for a valid hash.
         if (!isPasswordValid(hash)) {
             mHashView.setError(getString(R.string.error_invalid_hash));
             focusView = mHashView;
             cancel = true;
         }
 
+        //Check if user entered a hash.
         if (TextUtils.isEmpty(hash)) {
             mHashView.setError(getString(R.string.error_field_required));
             focusView = mHashView;
             cancel = true;
         }
 
-        // Check for a valid username.
+        //Check if user entered an username && it is regular.
         if (TextUtils.isEmpty(username)) {
-            mUsername.setError(getString(R.string.error_field_required));
-            focusView = mUsername;
+            mUserId.setError(getString(R.string.error_field_required));
+            focusView = mUserId;
             cancel = true;
         } else if (!isUserValid(username)) {
-            mUsername.setError(getString(R.string.error_invalid_email));
-            focusView = mUsername;
+            mUserId.setError(getString(R.string.error_invalid_email));
+            focusView = mUserId;
             cancel = true;
         }
 
+        //Error!
         if (cancel) {
-            //Error!
             focusView.requestFocus();
         } else {
-            //Perform login taskchain
+            //Perform login-task.
             showProgress(true);
             mAuthTask = new UserLoginTask(username, hash);
             mAuthTask.execute((Void) null);
@@ -230,9 +237,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //Async tasks to pull dta from web to our client.
-    //Does not interferer with our main thread.
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    //Async tasks to pull data from campus-dual to our client.
+    //Async task does not interferer with our main thread.
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String username;
         private final String mHash;
@@ -243,7 +250,7 @@ public class LoginActivity extends AppCompatActivity {
             mHash = hash;
         }
 
-        //Actual request.
+        //Make actual request.
         @Override
         protected Boolean doInBackground(Void... params) {
 
@@ -256,9 +263,10 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Try to login with provided data.
             boolean UserCheck =connAdapter.logInconnection(username,mHash);
 
-            //Set personal-values global for later usage.
+            //Set personal-values as global objects for later usage.
             connAdapter.setGlobalHash(mHash);
             connAdapter.setGlobalId(username);
 
@@ -266,9 +274,10 @@ public class LoginActivity extends AppCompatActivity {
             return (reachable && UserCheck);
         }
 
-        //After Login.
+        //After Login-credentials are validated.
         @Override
         protected void onPostExecute(final Boolean success) {
+
             //Reset params.
             mAuthTask = null;
 
@@ -284,14 +293,12 @@ public class LoginActivity extends AppCompatActivity {
                     output= new timetableTask(connAdapter.getGlobalId(),connAdapter.getGlobalHash(),startT,endT)
                             .execute()
                             .get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
 
                 //Set global value of the cal
-                connAdapter.setUserCalc(output);
+                connAdapter.setUserCal(output);
 
                 String output2;
                 try {
@@ -305,9 +312,7 @@ public class LoginActivity extends AppCompatActivity {
                     connAdapter.setUserCredits(status[1]);
 
                     connAdapter.setUserExams(status[2]);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
 
@@ -316,7 +321,9 @@ public class LoginActivity extends AppCompatActivity {
                 //Everything is fine, now go to the next activity.
                 showProgress(false);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
             } else {
+
                 showProgress(false);
                 //after wrong connection show dialog
                 AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
@@ -341,7 +348,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public class timetableTask extends AsyncTask<Void, Void,String> {
+    //Async task.
+    private class timetableTask extends AsyncTask<Void, Void,String> {
 
         //Params.
         private String userName;
@@ -360,14 +368,13 @@ public class LoginActivity extends AppCompatActivity {
         //get Content
         @Override
         protected String doInBackground(Void...params){
-            String url = connAdapter.getcal(userName,hashValue, startTime, endTime);
-            return url;
+            return connAdapter.getcal(userName,hashValue, startTime, endTime);
         }
 
     }
 
-
-    public class Semestertask extends AsyncTask<Void, Void,String> {
+    //Second async task
+    private class Semestertask extends AsyncTask<Void, Void,String> {
 
         //Params.
         private String userName;
@@ -382,8 +389,7 @@ public class LoginActivity extends AppCompatActivity {
         //Get content.
         @Override
         protected String doInBackground(Void... params) {
-            String url = connAdapter.getsemester(userName, hashValue) + connAdapter.getcredits(userName, hashValue) + connAdapter.getexams(userName, hashValue);
-            return url;
+            return connAdapter.getsemester(userName, hashValue) + connAdapter.getcredits(userName, hashValue) + connAdapter.getexams(userName, hashValue);
         }
     }
 }

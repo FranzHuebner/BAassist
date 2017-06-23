@@ -39,7 +39,7 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:text="Erweiterte Funktionen des BAassist" />
+                android:text="@string/erweiterte_funktionen_des_baassist" />
 
             <Button
                 android:id="@+id/refresh_status_button"
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Stundenplan aktualisieren"
+                android:text="@string/stundenplan_aktualisieren"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Cache löschen"
+                android:text="@string/cache_l_schen"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Gruppe festlegen"
+                android:text="@string/Gruppe"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="App beenden"
+                android:text="@string/endApp"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textStyle="bold" />

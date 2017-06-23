@@ -37,7 +37,7 @@ public class MainFragment extends Fragment{
 
 
 
-        String output=connAdapter.getUserCalc();
+        String output=connAdapter.getUserCal();
 
 
         String[] timeTableData = output.split("title");         //Array der alle Daten enthält

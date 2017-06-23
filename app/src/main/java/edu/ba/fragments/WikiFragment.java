@@ -17,7 +17,7 @@ import edu.ba.baassist.R;
 public class WikiFragment extends Fragment {
 
     public WebView mWebView;
-    String WikiURL = "https://raw.githubusercontent.com/FranzHuebner/BAassist/master/ba_wiki_host";
+    String WikiURL = "ba_wiki_host";
 
 
     @Nullable
@@ -28,7 +28,7 @@ public class WikiFragment extends Fragment {
 
 
         mWebView = (WebView) rootView.findViewById(R.id.webView1);
-        mWebView.loadUrl(WikiURL);
+        mWebView.loadUrl("https://raw.githubusercontent.com/FranzHuebner/BAassist/master/"+WikiURL);
 
 
         return rootView;
