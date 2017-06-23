@@ -25,41 +25,41 @@ import javax.net.ssl.X509TrustManager;
 public class connAdapter {
 
     //Global Params to provide faster animations.
-    public static Object UserCalc;
-    public static Object UserFs;
-    public static Object UserCredits;
-    public static Object UserExams;
+    private static Object UserCal;
+    private static Object UserFs;
+    private static Object UserCredits;
+    private static Object UserExams;
     public static Object UserGlobal;
     public static Object HashGlobal;
 
     //Public setter methods.
-    public static void setUserCalc(String Calc){
-        UserCalc = Calc;
+    static void setUserCal(String Cal){
+        UserCal = Cal;
     }
 
-    public static void setUserFs(String FS){
+    static void setUserFs(String FS){
        UserFs = FS;
     }
 
-    public static void setUserExams(String Exams){
+    static void setUserExams(String Exams){
         UserExams = Exams;
     }
 
-    public static void setUserCredits(String Credits){
+    static void setUserCredits(String Credits){
         UserCredits = Credits;
     }
 
-    public static void setGlobalId(String Id){
+    static void setGlobalId(String Id){
         UserGlobal = Id;
     }
 
-    public static void setGlobalHash(String Hash){
+    static void setGlobalHash(String Hash){
         HashGlobal = Hash;
     }
 
     //Public getter-methods.
-    public static String getUserCalc(){
-        return ((String) UserCalc);
+    public static String getUserCal(){
+        return ((String) UserCal);
     }
 
     public static String getUserFs(){
@@ -74,7 +74,7 @@ public class connAdapter {
         return ((String) UserCredits);
     }
 
-    public static String getGlobalId(){
+    static String getGlobalId(){
         return ((String) UserGlobal);
     }
 
@@ -109,7 +109,8 @@ public class connAdapter {
         return content.toString();
     }
 
-    //trusting every CA-Certificate
+    //Trusting every CA-Certificate.
+    //
     private static void trustAllCertificates() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{
@@ -142,31 +143,30 @@ public class connAdapter {
     }
 
     //Check if the website is online.
-   public static boolean isReachable(String urlinput) throws IOException {
-       trustAllCertificates();
-       HttpsURLConnection conn = (HttpsURLConnection) new URL(urlinput).openConnection();
-       conn.setRequestMethod("HEAD");
-       conn.setRequestProperty( "Accept-Encoding","");
-       int response = conn.getResponseCode();
-       //HTTP -> OK (200) -> (304) ok for other site
-       return ((response == HttpsURLConnection.HTTP_OK) || (response ==304) || (response ==100));
-   }
+    public static boolean isReachable(String urlinput) throws IOException {
+        trustAllCertificates();
+        HttpsURLConnection conn = (HttpsURLConnection) new URL(urlinput).openConnection();
+        conn.setRequestMethod("HEAD");
+        conn.setRequestProperty( "Accept-Encoding","");
+        int response = conn.getResponseCode();
+        //HTTP -> OK (200) -> (304).
+        return ((response == HttpsURLConnection.HTTP_OK) || (response ==304) || (response ==100));
+    }
 
     //Check if we can login with the provided data.
     static boolean logInconnection(String username, String hash){
 
        boolean trueFail =true;
-       String output; //buffer to check against the failword
-       String Url = "https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash+""; //check web
+       String output; //Buffer for response.
+       String Url = "https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash+""; //Check web
        String failWord = "Fehlermeldung";
 
-       output = getUrlContents(Url); //get content as string
+       output = getUrlContents(Url); //Get content as string.
 
-       if(output.contains(failWord)){ //check string for the failword
-           trueFail = false; // wrong information
+       if(output.contains(failWord)){ //Check string if it contains the word.
+           trueFail = false; //Wrong information.
        }
-
-       return trueFail;
+       return trueFail; //Return value.
     }
 
     //Get current Semester.
@@ -178,20 +178,16 @@ public class connAdapter {
     //Get the credits of the User.
     static String getcredits(String username, String hash){
         String Url ="https://selfservice.campus-dual.de/dash/getcp?user="+username+"&hash="+hash;
-
         return getUrlContents(Url);
     }
 
     //Get the finished exams of the user.
     static String getexams(String username, String hash){
-
         String Url ="https://selfservice.campus-dual.de/dash/getexamstats?user="+username+"&hash="+hash;
-
         return getUrlContents(Url);
-
     }
 
-    //Get the calc of the user from start to end.
+    //Get the cal of the user from start to end.
     static String getcal(String username, String hash, String start, String end) {
         String Url = "https://selfservice.campus-dual.de/room/json?userid="+username+"&hash="+hash+"&start="+start+"&end="+end;
 
@@ -210,11 +206,12 @@ public class connAdapter {
         return String.valueOf(input);
     }
 
-    //Convert normal time to unix time.
-    public static String convertNormaltoUnix(Date input){
+    //Convert normal time to unix time. -> Later usage.
+    /* public static String convertNormaltoUnix(Date input){
         long zw=input.getTime();
         return String.valueOf(zw);
     }
+   */
 
     //Convert unix time to normal time.
     public static String convertUnixtoNormal(long timeStamp){

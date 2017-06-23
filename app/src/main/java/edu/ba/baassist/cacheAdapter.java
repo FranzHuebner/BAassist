@@ -16,12 +16,10 @@ import java.io.InputStreamReader;
 
 public class cacheAdapter{
 
+    //Define context == our application.
     static Context fileContext;
 
-
     //Save calender to memory.
-
-
     boolean saveCaltoMem(String cal){
 
         String filename = "userCal";
@@ -323,11 +321,8 @@ public class cacheAdapter{
         }else{
 
             return "File nicht gefunden.";
-
         }
-
     }
-
     //get the global hash of the User from memory.
     String getHashGlobalfromMem() throws FileNotFoundException {
 
