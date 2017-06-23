@@ -8,31 +8,31 @@
         android:id="@+id/itemListViewTxtSubject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Avocado"
-        android:textSize="20sp"
+        android:text="Schalt Digitaltechnik"
+        android:textSize="16sp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="90dp"/>
 
     <TextView
         android:id="@+id/itemListViewTxtTeacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="Rs. 50/kg"
-        android:textSize="18sp"
-        android:textColor="#FFF"
+        android:text="Marius Feldmann"
+        android:textSize="12sp"
+        android:textColor="@color/colorPrimary"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="5dp"/>
 
     <TextView
         android:id="@+id/itemListViewTxtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="Rs. 50/kg"
-        android:textSize="18sp"
-        android:textColor="#FFF"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"/>
+        android:text="07:45-18:45"
+        android:textSize="12sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"/>
 
 </RelativeLayout>

@@ -19,6 +19,8 @@ import java.util.concurrent.ExecutionException;
 
 import edu.ba.baassist.MainActivity;
 import edu.ba.baassist.R;
+import edu.ba.baassist.TimetableAdapter;
+import edu.ba.baassist.TimetableItem;
 import edu.ba.baassist.connAdapter;
 
 /**
@@ -70,17 +72,25 @@ public class MainFragment extends Fragment{
         timeTableData[0]="Stundenplan";
         List<String> timeTableList = new ArrayList<>(Arrays.asList(timeTableDisplay));
 
-        ArrayAdapter <String> timetableListeAdapter =
-                new ArrayAdapter<>(
-                        getActivity(), //aktuelle Umgebung (diese Activity)
-                        R.layout.list_item_timetable, // ID der XML-Layout Datei
-                        R.id.list_item_timetable_textview, // ID des TextViews
-                        timeTableList); // Beispieldaten aus der ArrayList
+//        ArrayAdapter <String> timetableListeAdapter =
+//                new ArrayAdapter<>(
+//                        getActivity(), //aktuelle Umgebung (diese Activity)
+//                        R.layout.list_item_timetable, // ID der XML-Layout Datei
+//                        R.id.list_item_timetable_textview, // ID des TextViews
+//                        timeTableList); // Beispieldaten aus der ArrayList
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ListView timetableListView = (ListView) rootView.findViewById(R.id.listview_timetable);
-        timetableListView.setAdapter(timetableListeAdapter);
+//        ListView timetableListView = (ListView) rootView.findViewById(R.id.listview_timetable);
+//        timetableListView.setAdapter(timetableListeAdapter);
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_timetable);
+
+        ArrayList<Object> list = new ArrayList<>();
+        list.add(new String("Obst"));
+        list.add(new TimetableItem("Apfel", "EUR 6 /Kilo", "test"));
+        list.add(new  TimetableItem("Birne", "EUR 5 /Kilo", "test2"));
+
+        listView.setAdapter(new TimetableAdapter(rootView.getContext(), list));
 
         return rootView;
     }
