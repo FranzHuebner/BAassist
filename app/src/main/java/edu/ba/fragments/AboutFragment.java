@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import edu.ba.baassist.R;
 
 /**
- * Created by richa on 16.06.2017.
+ * Simple class to
  */
 
 public class AboutFragment extends Fragment{
@@ -19,9 +19,6 @@ public class AboutFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        View rootView = inflater.inflate(R.layout.fragment_about, container, false);
-
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_about, container, false);
     }
 }

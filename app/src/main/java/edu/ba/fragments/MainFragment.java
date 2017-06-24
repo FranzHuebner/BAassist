@@ -10,13 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import edu.ba.baassist.MainActivity;
 import edu.ba.baassist.R;
+import edu.ba.baassist.TimetableAdapter;
+import edu.ba.baassist.TimetableItem;
 import edu.ba.baassist.connAdapter;
 
 /**
@@ -35,7 +39,7 @@ public class MainFragment extends Fragment{
 
 
 
-        String output=connAdapter.getUserCalc();
+        String output=connAdapter.getUserCal();
 
 
         String[] timeTableData = output.split("title");         //Array der alle Daten enthält
@@ -62,30 +66,51 @@ public class MainFragment extends Fragment{
                 j++;
             }
         }
+
+        //Cleaning the null-elements from the array to ensure we can´t get a nullpointer exc with our listview.
+        timeTableDisplay = clean(timeTableDisplay);
         timeTableData[0]="Stundenplan";
         List<String> timeTableList = new ArrayList<>(Arrays.asList(timeTableDisplay));
 
-
-        ArrayAdapter <String> timetableListeAdapter =
-                new ArrayAdapter<>(
-                        getActivity(), //aktuelle Umgebung (diese Activity)
-                        R.layout.list_item_timetable, // ID der XML-Layout Datei
-                        R.id.list_item_timetable_textview, // ID des TextViews
-                        timeTableList); // Beispieldaten aus der ArrayList
+//        ArrayAdapter <String> timetableListeAdapter =
+//                new ArrayAdapter<>(
+//                        getActivity(), //aktuelle Umgebung (diese Activity)
+//                        R.layout.list_item_timetable, // ID der XML-Layout Datei
+//                        R.id.list_item_timetable_textview, // ID des TextViews
+//                        timeTableList); // Beispieldaten aus der ArrayList
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ListView timetableListView = (ListView) rootView.findViewById(R.id.listview_timetable);
-        timetableListView.setAdapter(timetableListeAdapter);
+//        ListView timetableListView = (ListView) rootView.findViewById(R.id.listview_timetable);
+//        timetableListView.setAdapter(timetableListeAdapter);
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_timetable);
+
+        ArrayList<Object> list = new ArrayList<>();
+        list.add(new String("Obst"));
+        list.add(new TimetableItem("Apfel", "EUR 6 /Kilo", "test"));
+        list.add(new  TimetableItem("Birne", "EUR 5 /Kilo", "test2"));
+
+        listView.setAdapter(new TimetableAdapter(rootView.getContext(), list));
 
         return rootView;
     }
 
     public int convertTimeStringToInteger(String input){                        //Method to convert Time String to Int
         String begOfLesson = input.substring(input.indexOf(":")+1);
-        int begOfLessonInt = Integer.parseInt(begOfLesson.toString());        //Integer der Startzeit
-        return begOfLessonInt;
+        if(begOfLesson != null){
+
+            int begOfLessonInt = Integer.parseInt(begOfLesson);        //Integer der Startzeit
+            return begOfLessonInt;
+        }else {
+            return 2;
+        }
     }
 
+    //Function to remove null elements in the array
+    public static String[] clean(final String[] v) {
+        List<String> list = new ArrayList<String>(Arrays.asList(v));
+        list.removeAll(Collections.singleton(null));
+        return list.toArray(new String[list.size()]);
+    }
 
 }
