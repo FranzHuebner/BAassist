@@ -110,7 +110,6 @@ public class connAdapter {
     }
 
     //Trusting every CA-Certificate.
-    //
     private static void trustAllCertificates() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{
