@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/aboutTextView"
+    <ScrollView
+        android:id="@+id/settingsview_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:text="BAassist\n\nEine Campus-Dual App von:\nFranz Hübner\nRichard Walter\n\nBA Dresden 2017" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/settings_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="225dp"
+                app:srcCompat="@drawable/baassist_logo" />
+
+            <TextView
+                android:id="@+id/aboutTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="BAassist\n\nEine Campus-Dual App von:\nFranz Hübner\nRichard Walter\n\nBA Dresden 2017\n"/>
+
+            <TextView
+                android:id="@+id/txtLostpassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autoLink="web"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="@string/githublink"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
 </FrameLayout>

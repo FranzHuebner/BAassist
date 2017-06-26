@@ -24,4 +24,5 @@
     <string name="cache_l_schen">Cache löschen</string>
     <string name="Gruppe">Gruppe festlegen</string>
     <string name="endApp">App beenden</string>
+    <string name="githublink">Projekt auf Github: <a href="https://github.com/FranzHuebner/BAassist">https://github.com/FranzHuebner/BAassist</a></string>
 </resources>
