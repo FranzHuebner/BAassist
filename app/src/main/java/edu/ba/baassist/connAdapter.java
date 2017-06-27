@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import java.util.Date;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -25,12 +24,12 @@ import javax.net.ssl.X509TrustManager;
 public class connAdapter {
 
     //Global Params to provide faster animations.
-    private static Object UserCal;
-    private static Object UserFs;
-    private static Object UserCredits;
-    private static Object UserExams;
-    public static Object UserGlobal;
-    public static Object HashGlobal;
+    public static Object UserCal;
+    public static Object UserFs;
+    public static Object UserCredits;
+    public static Object UserExams;
+    private static Object UserGlobal;
+    private static Object HashGlobal;
 
     //Public setter methods.
     static void setUserCal(String Cal){
@@ -217,4 +216,26 @@ public class connAdapter {
         java.util.Date time=new java.util.Date(timeStamp *1000);
         return time.toString();
     }
+
+    //Refreshing global variables.
+    public static void refreshValues(){
+
+        //Setting variables to refresh the cal.
+        String startT = String.valueOf(StartTime());
+        String endT = String.valueOf(EndTime(Long.valueOf(startT)+3024000));
+
+        //Get the new values.
+        String output =getcal(getGlobalId(),getGlobalHash(),startT,endT);
+        String output2=getcredits(getGlobalId(),getGlobalHash());
+        String output3=getexams(getGlobalId(),getGlobalHash());
+        String output4=getsemester(getGlobalId(),getGlobalHash());
+
+        //Setting the new values.
+        setUserFs(output4);
+        setUserCredits(output2);
+        setUserExams(output3);
+        setUserCal(output);
+
+    }
+
 }
