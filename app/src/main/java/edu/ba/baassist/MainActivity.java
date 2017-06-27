@@ -108,14 +108,12 @@ public class MainActivity extends AppCompatActivity
                 fm.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
         }
 
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     public static void ButtonOnClick(View v) {
-        SettingsFragment.ButtonOnClick(v);
+        new SettingsFragment().ButtonOnClick(v);
     }
 }
