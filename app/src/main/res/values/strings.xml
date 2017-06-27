@@ -21,7 +21,7 @@
     <string name="hash">Hash</string>
     <string name="erweiterte_funktionen_des_baassist">Erweiterte Funktionen des BAassist</string>
     <string name="stundenplan_aktualisieren">Stundenplan aktualisieren</string>
-    <string name="cache_l_schen">Cache löschen</string>
+    <string name="cache_l_schen">Alle Daten löschen</string>
     <string name="Gruppe">Gruppe festlegen</string>
     <string name="endApp">App beenden</string>
     <string name="githublink">Projekt auf Github: <a href="https://github.com/FranzHuebner/BAassist">https://github.com/FranzHuebner/BAassist</a></string>

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Adapter class to interact with the internal memory to save the userdata.
+ * Adapter-class to interact with the internal memory to save the userdata.
  */
 
 public class cacheAdapter{
@@ -278,6 +278,36 @@ public class cacheAdapter{
         }
     }
 
+    //get the global hash of the User from memory.
+    String getHashGlobalfromMem() throws FileNotFoundException {
+
+        if (getFileExistence("HashGlobal")){
+
+            String filename = "HashGlobal";
+            FileInputStream fis;
+            fis = fileContext.openFileInput(filename);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            String output;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+                output =sb.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+                output=e.toString();
+            }
+            return output;
+
+        }else {
+
+            return "Datei nicht vorhanden.";
+        }
+
+    }
 
     //method to check if the data is up to date and replace it with newer one if given.
     public String checkdiff(String input, String Cname) throws FileNotFoundException {
@@ -322,36 +352,6 @@ public class cacheAdapter{
 
             return "File nicht gefunden.";
         }
-    }
-    //get the global hash of the User from memory.
-    String getHashGlobalfromMem() throws FileNotFoundException {
-
-        if (getFileExistence("HashGlobal")){
-
-            String filename = "HashGlobal";
-            FileInputStream fis;
-            fis = fileContext.openFileInput(filename);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader bufferedReader = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String line;
-            String output;
-            try {
-                while ((line = bufferedReader.readLine()) != null) {
-                    sb.append(line);
-                }
-                output =sb.toString();
-            } catch (IOException e) {
-                e.printStackTrace();
-                output=e.toString();
-            }
-            return output;
-
-        }else {
-
-            return "Datei nicht vorhanden.";
-        }
-
     }
 
     //Delete an entry in the cache.
