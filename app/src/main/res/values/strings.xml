@@ -2,21 +2,27 @@
     <string name="app_name">BAassist</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
+    <string name="prompt_email">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Anmelden</string>
+    <string name="action_sign_in_short">Anmelden</string>
+    <string name="error_invalid_email">Nutzername enthält falsche Zeichen</string>
+    <string name="error_invalid_hash">Dein Hash muss 32 Zeichen enthalten</string>
+    <string name="error_incorrect_hash">Falscher Hash</string>
+    <string name="error_field_required">Dieses Feld wird benötigt</string>
+    <string name="permission_rationale">"Bitte gib uns Berechtigung zum Speichern :)"
     </string>
-    <string name="title_activity_navigation">NavigationActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">-ohne Funktion-</string>
+    <string name="title_activity_main">BAassist</string>
+    <string name="hash">Hash</string>
+    <string name="erweiterte_funktionen_des_baassist">Erweiterte Funktionen des BAassist</string>
+    <string name="stundenplan_aktualisieren">Stundenplan aktualisieren</string>
+    <string name="cache_l_schen">Alle Daten löschen</string>
+    <string name="Gruppe">Gruppe festlegen\n(bald verfügbar)</string>
+    <string name="endApp">App beenden</string>
+    <string name="githublink">Projekt auf Github: <a href="https://github.com/FranzHuebner/BAassist">https://github.com/FranzHuebner/BAassist</a></string>
 </resources>

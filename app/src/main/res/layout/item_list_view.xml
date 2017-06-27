@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/itemListViewTxtSubject"
+        android:layout_width="195sp"
+        android:layout_height="wrap_content"
+        android:text="Subject"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40sp"/>
+
+    <TextView
+        android:id="@+id/itemListViewTxtTeacher"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Teacher"
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="2dp"
+        android:gravity="right"/>
+
+    <TextView
+        android:id="@+id/itemListViewTxtTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Time\nRoom"
+        android:textSize="12sp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="2dp"/>
+
+</RelativeLayout>

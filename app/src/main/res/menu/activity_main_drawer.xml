@@ -4,13 +4,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_timetable"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_event_black_24dp"
             android:title="Stundenplan" />
 
         <item
             android:id="@+id/nav_wiki"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_free_breakfast_black_24dp"
             android:title="BA-Wiki" />
+
+        <item
+            android:id="@+id/nav_status"
+            android:icon="@drawable/ic_create_black_24dp"
+            android:title="Status des Studiums" />
 
     </group>
 
@@ -18,11 +23,11 @@
         <menu>
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Einstellungen" />
             <item
                 android:id="@+id/nav_ueber"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_info_black_24dp"
                 android:title="Über diese App" />
         </menu>
     </item>
