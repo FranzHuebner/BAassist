@@ -17,7 +17,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="225dp"
-                app:srcCompat="@drawable/baassist_logo" />
+                app:srcCompat="@drawable/baassist_logo"
+                android:contentDescription="Logo" />
 
             <TextView
                 android:id="@+id/aboutTextView"
@@ -35,7 +36,7 @@
                 android:layout_gravity="center"
                 android:autoLink="web"
                 android:gravity="center"
-                android:padding="20px"
+                android:padding="20dp"
                 android:text="@string/githublink"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 

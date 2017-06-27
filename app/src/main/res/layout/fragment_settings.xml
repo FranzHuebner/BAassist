@@ -77,18 +77,6 @@
                 android:textStyle="bold"
                 android:onClick="ButtonOnClick"/>
 
-            <Button
-                android:id="@+id/logout_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/endApp"
-                android:textSize="18sp"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:onClick="ButtonOnClick"/>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
