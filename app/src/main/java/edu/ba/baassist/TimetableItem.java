@@ -2,7 +2,7 @@ package edu.ba.baassist;
 
 
 /**
- * Created by Richard on 21.06.2017.
+ * Class for the objects hich will be displayed in the timetable
  */
 
 public class TimetableItem {
@@ -16,15 +16,15 @@ public class TimetableItem {
         this.time = time;
     }
 
-    public String getSubject(){return subject;}
+    String getSubject(){return subject;}
 
     public void setSubject(String subject) {this.subject = subject;}
 
-    public String getTeacher(){return teacher;}
+    String getTeacher(){return teacher;}
 
     public void setTeacher(String teacher) {this.teacher = teacher;}
 
-    public String getTime(){return time;}
+    String getTime(){return time;}
 
     public void setTime(String time){this.time = time;}
 }

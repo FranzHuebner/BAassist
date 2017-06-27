@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import edu.ba.baassist.R;
 
 /**
- * Created by richa on 14.06.2017.
+ * Fragment which displays a WebPage with a "BA-Wiki"
  */
 
 public class WikiFragment extends Fragment {

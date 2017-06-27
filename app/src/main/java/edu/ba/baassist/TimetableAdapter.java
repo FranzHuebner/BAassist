@@ -10,11 +10,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Richard on 21.06.2017.
+ * Adapter for the format of the listview(timetable).
  */
 
 public class TimetableAdapter extends BaseAdapter {
-    ArrayList<Object> timetable;
+    private ArrayList<Object> timetable;
     private static final int TIMETABLE_ITEM = 0;
     private static final int HEADER = 1;
     private LayoutInflater inflater;
@@ -25,6 +25,7 @@ public class TimetableAdapter extends BaseAdapter {
 
     }
 
+    //Decides of which type the list element is.
     @Override
     public int getItemViewType(int position) {
         if(timetable.get(position) instanceof TimetableItem){
@@ -58,6 +59,7 @@ public class TimetableAdapter extends BaseAdapter {
         return i;
     }
 
+    //Get the specific layout of the element and create a view for ach element
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
@@ -72,6 +74,7 @@ public class TimetableAdapter extends BaseAdapter {
         }
         switch(getItemViewType(i)){
             case TIMETABLE_ITEM:
+                assert view != null;
                 TextView subject = (TextView) view.findViewById(R.id.itemListViewTxtSubject);
                 TextView teacher = (TextView) view.findViewById(R.id.itemListViewTxtTeacher);
                 TextView time = (TextView) view.findViewById(R.id.itemListViewTxtTime);
@@ -81,6 +84,7 @@ public class TimetableAdapter extends BaseAdapter {
                 time.setText(((TimetableItem)timetable.get(i)).getTime());
                 break;
             case HEADER:
+                assert view != null;
                 TextView title = (TextView) view.findViewById(R.id.itemListViewHeader);
                 title.setText(((String)timetable.get(i)));
                 break;
