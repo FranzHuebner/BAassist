@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import edu.ba.baassist.R;
 
 /**
- * Simple class to
+ * Simple class to provide contact details.
  */
 
 public class AboutFragment extends Fragment{

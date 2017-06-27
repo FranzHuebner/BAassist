@@ -205,32 +205,22 @@ public class connAdapter {
         return String.valueOf(input);
     }
 
-    //Convert normal time to unix time. -> Later usage.
-    /* public static String convertNormaltoUnix(Date input){
-        long zw=input.getTime();
-        return String.valueOf(zw);
-    }
-   */
-
     //Convert unix time to date.
     public static Date convertUnixtoNormalDate(long timeStamp){
-        java.util.Date date=new java.util.Date(timeStamp *1000);
-        return date;
+        return new Date(timeStamp *1000);
     }
     //Convert unix time to normal time.
     public static String convertUnixtoNormalTimeString(long timeStamp){
         java.util.Date date=new java.util.Date(timeStamp *1000);
         SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm");
-        String time = localDateFormat.format(date);
-        return time.toString();
+        return localDateFormat.format(date);
     }
 
     //Function to give you the actual date.
     public static String convertUnixtoNormalDateString(long timeStamp){
         java.util.Date date=new java.util.Date(timeStamp *1000);
         SimpleDateFormat localDateFormat = new SimpleDateFormat("EEEE, dd.MM.yyyy");
-        String dateString = localDateFormat.format(date);
-        return dateString.toString();
+        return localDateFormat.format(date);
     }
   
     //Function to set the time of a date to Midnight, used to compare Dates without Time.
