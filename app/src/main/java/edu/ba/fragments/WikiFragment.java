@@ -22,6 +22,8 @@ public class WikiFragment extends Fragment {
 
     @Nullable
     @Override
+
+    //display the "BA-Wiki" which is a web resource with a WebView
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View rootView = inflater.inflate(R.layout.fragment_wiki, container, false);

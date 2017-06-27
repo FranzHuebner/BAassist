@@ -1,23 +1,19 @@
 package edu.ba.fragments;
 
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import edu.ba.baassist.MainActivity;
 import edu.ba.baassist.R;
 import edu.ba.baassist.TimetableAdapter;
 import edu.ba.baassist.TimetableItem;
@@ -31,75 +27,63 @@ import edu.ba.baassist.connAdapter;
 public class MainFragment extends Fragment{
 
     long ActTime = System.currentTimeMillis()/1000;
-
+    Date ActDate = connAdapter.convertUnixtoNormalDate(1475307900);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
+        String output=connAdapter.getUserCal();                     // Get Data as String.
+
+        String[] timeTableData = output.split("title");             //Array which splits the outpu string in the different Elements.
+        timeTableData = clean(timeTableData);                          //Removing null Elements from Array.
 
 
-        String output=connAdapter.getUserCal();
+        ArrayList<Object> list = new ArrayList<>();                 //List which will be displayed.
 
-
-        String[] timeTableData = output.split("title");         //Array der alle Daten enthält
-        String[] timeTableDisplay = new String[timeTableData.length];       //Array der für die Ausgabe an akt. Datum verwendet wird
-
-        int j = 0;      //Zählvariable für Display-Array
         for(int i=1; i<timeTableData.length; i++){
 
-            String[] temp=timeTableData[i].split(",");      //Daten-String in verschiedene Atrrays zur Weiterverarbeitung aufteilen
+            String[] temp=timeTableData[i].split(",");      //Split Data to work with the single Elements.
 
-            String subject = temp[0];
-            String teacher = temp[9];
+            //Values for the single Element.
+            String subject = temp[0].substring(2).replaceAll("\"","");                        //TODO put this into one regex
+            String teacher = temp[9].replaceAll(":","").replaceAll("\"","");
             String beginn = temp[1];
             String end=temp[2];
-            String room=temp[7];
+            String room=temp[7].substring(temp[7].indexOf(":")+1).replaceAll("\"","");
 
 
-            timeTableData[i]=subject+"\n"+teacher+"\n"+room+"\n"+connAdapter.convertUnixtoNormal(convertTimeStringToInteger(beginn))+"-"+connAdapter.convertUnixtoNormal(convertTimeStringToInteger(end));        //Ausgabe String vorbereiten
-            timeTableData[i]=timeTableData[i].replaceAll("[\"\\[\\{\\}\\]]","");        //Sonderzeichen entfernen
+            int beginnOfLessonInt = convertTimeStringToInteger(beginn);        //Integer of start Time.
+            if(beginnOfLessonInt>=ActTime-5500){                                //Start Time of the displayed List.
 
-            int beginnOfLessonInt = convertTimeStringToInteger(beginn);        //Integer der Startzeit
-            if(beginnOfLessonInt>=ActTime){
-                timeTableDisplay[j]=timeTableData[i];
-                j++;
+                Date timetableDate = connAdapter.convertUnixtoNormalDate(beginnOfLessonInt);
+
+                if(connAdapter.setTimeToMidnight(timetableDate).after(connAdapter.setTimeToMidnight(ActDate))){
+                    ActDate = timetableDate;
+                    String headerDate = connAdapter.convertUnixtoNormalDateString(beginnOfLessonInt);
+                    list.add(headerDate);                                           //Add a new header when a new day starts.
+                }
+
+                list.add(new TimetableItem(subject, teacher.replace("instructor", ""), connAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(beginn)) + "\n" + room));   //Add new Element
             }
         }
 
-        //Cleaning the null-elements from the array to ensure we can´t get a nullpointer exc with our listview.
-        timeTableDisplay = clean(timeTableDisplay);
-        timeTableData[0]="Stundenplan";
-        List<String> timeTableList = new ArrayList<>(Arrays.asList(timeTableDisplay));
-
-//        ArrayAdapter <String> timetableListeAdapter =
-//                new ArrayAdapter<>(
-//                        getActivity(), //aktuelle Umgebung (diese Activity)
-//                        R.layout.list_item_timetable, // ID der XML-Layout Datei
-//                        R.id.list_item_timetable_textview, // ID des TextViews
-//                        timeTableList); // Beispieldaten aus der ArrayList
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-//        ListView timetableListView = (ListView) rootView.findViewById(R.id.listview_timetable);
-//        timetableListView.setAdapter(timetableListeAdapter);
         ListView listView = (ListView) rootView.findViewById(R.id.listview_timetable);
 
-        ArrayList<Object> list = new ArrayList<>();
-        list.add(new String("Obst"));
-        list.add(new TimetableItem("Apfel", "EUR 6 /Kilo", "test"));
-        list.add(new  TimetableItem("Birne", "EUR 5 /Kilo", "test2"));
-
-        listView.setAdapter(new TimetableAdapter(rootView.getContext(), list));
+        listView.setAdapter(new TimetableAdapter(rootView.getContext(), list));                     //Custom adapter for the list.
 
         return rootView;
     }
 
-    public int convertTimeStringToInteger(String input){                        //Method to convert Time String to Int
+    //Method to convert Time String to Int.
+    public int convertTimeStringToInteger(String input){
         String begOfLesson = input.substring(input.indexOf(":")+1);
         if(begOfLesson != null){
 
-            int begOfLessonInt = Integer.parseInt(begOfLesson);        //Integer der Startzeit
+            int begOfLessonInt = Integer.parseInt(begOfLesson);        //Integer of start Time.
             return begOfLessonInt;
         }else {
             return 2;
