@@ -17,69 +17,69 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Connection Adapter for Campus Dual.
+ * Connection adapter for Campus-Dual.
  * Provide basic functionality to communicate with the website.
  */
 
 
-public class connAdapter {
+public class ConnAdapter {
 
     //Global Params to provide faster animations.
-    public static Object UserCal;
-    public static Object UserFs;
-    public static Object UserCredits;
-    public static Object UserExams;
-    private static Object UserGlobal;
-    private static Object HashGlobal;
+    private static Object userCal;
+    public static Object userFs;
+    public static Object userCredits;
+    public static Object userExams;
+    private static Object userGlobal;
+    private static Object hashGlobal;
 
     //Public setter methods.
-    static void setUserCal(String Cal){
-        UserCal = Cal;
+    static void setUserCal(String cal){
+        userCal = cal;
     }
 
-    static void setUserFs(String FS){
-       UserFs = FS;
+    static void setUserFs(String fs){
+       userFs = fs;
     }
 
-    static void setUserExams(String Exams){
-        UserExams = Exams;
+    static void setUserExams(String exams){
+        userExams = exams;
     }
 
-    static void setUserCredits(String Credits){
-        UserCredits = Credits;
+    static void setUserCredits(String credits){
+        userCredits = credits;
     }
 
-    static void setGlobalId(String Id){
-        UserGlobal = Id;
+    static void setGlobalId(String id){
+        userGlobal = id;
     }
 
-    static void setGlobalHash(String Hash){
-        HashGlobal = Hash;
+    static void setGlobalHash(String hash){
+        hashGlobal = hash;
     }
 
     //Public getter-methods.
     public static String getUserCal(){
-        return ((String) UserCal);
+        return ((String) userCal);
     }
 
     public static String getUserFs(){
-        return ((String) UserFs);
+        return ((String) userFs);
     }
 
     public static String getUserExams(){
-        return ((String) UserExams);
+        return ((String) userExams);
     }
 
     public static String getUserCredits(){
-        return ((String) UserCredits);
+        return ((String) userCredits);
     }
 
     static String getGlobalId(){
-        return ((String) UserGlobal);
+        return ((String) userGlobal);
     }
 
     static String getGlobalHash(){
-        return ((String) HashGlobal);
+        return ((String) hashGlobal);
     }
 
     //Function to open the streamreader and wrap the response to a string.
@@ -142,9 +142,9 @@ public class connAdapter {
     }
 
     //Check if the website is online.
-    public static boolean isReachable(String urlinput) throws IOException {
+    public static boolean isReachable(String urlInput) throws IOException {
         trustAllCertificates();
-        HttpsURLConnection conn = (HttpsURLConnection) new URL(urlinput).openConnection();
+        HttpsURLConnection conn = (HttpsURLConnection) new URL(urlInput).openConnection();
         conn.setRequestMethod("HEAD");
         conn.setRequestProperty( "Accept-Encoding","");
         int response = conn.getResponseCode();
@@ -153,14 +153,14 @@ public class connAdapter {
     }
 
     //Check if we can login with the provided data.
-    static boolean logInconnection(String username, String hash){
+    static boolean loginConnection(String username, String hash){
 
        boolean trueFail =true;
        String output; //Buffer for response.
-       String Url = "https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash+""; //Check web
+       String url = "https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash+""; //Check web
        String failWord = "Fehlermeldung";
 
-       output = getUrlContents(Url); //Get content as string.
+       output = getUrlContents(url); //Get content as string.
 
        if(output.contains(failWord)){ //Check string if it contains the word.
            trueFail = false; //Wrong information.
@@ -168,40 +168,39 @@ public class connAdapter {
        return trueFail; //Return value.
     }
 
-    //Get current Semester.
-    static String getsemester(String username, String hash) {
-        String Url ="https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash;
-        return getUrlContents(Url);
+    //Get current semester.
+    static String getSemester(String username, String hash) {
+        String url ="https://selfservice.campus-dual.de/dash/getfs?user="+username+"&hash="+hash;
+        return getUrlContents(url);
     }
 
-    //Get the credits of the User.
-    static String getcredits(String username, String hash){
-        String Url ="https://selfservice.campus-dual.de/dash/getcp?user="+username+"&hash="+hash;
-        return getUrlContents(Url);
+    //Get the credits of the user.
+    static String getCredits(String username, String hash){
+        String url ="https://selfservice.campus-dual.de/dash/getcp?user="+username+"&hash="+hash;
+        return getUrlContents(url);
     }
 
     //Get the finished exams of the user.
-    static String getexams(String username, String hash){
-        String Url ="https://selfservice.campus-dual.de/dash/getexamstats?user="+username+"&hash="+hash;
-        return getUrlContents(Url);
+    static String getExams(String username, String hash){
+        String url ="https://selfservice.campus-dual.de/dash/getexamstats?user="+username+"&hash="+hash;
+        return getUrlContents(url);
     }
 
     //Get the cal of the user from start to end.
-    static String getcal(String username, String hash, String start, String end) {
-        String Url = "https://selfservice.campus-dual.de/room/json?userid="+username+"&hash="+hash+"&start="+start+"&end="+end;
-
-        return getUrlContents(Url);
-
+    static String getCal(String username, String hash, String start, String end) {
+        String url = "https://selfservice.campus-dual.de/room/json?userid="+username+"&hash="+hash+"&start="+start+"&end="+end;
+        return getUrlContents(url);
     }
+
     //Function to form the url to download the cal.
-    static String StartTime(){
+    static String startTime(){
         long milli = System.currentTimeMillis();
         milli=milli/1000;
         return String.valueOf(milli);
     }
 
     //Function to form the url to download the cal.
-    static String EndTime(long input){
+    static String endTime(long input){
         return String.valueOf(input);
     }
 
@@ -223,7 +222,7 @@ public class connAdapter {
         return localDateFormat.format(date);
     }
   
-    //Function to set the time of a date to Midnight, used to compare Dates without Time.
+    //Function to set the time of a date to midnight, used to compare dates without time.
     public static Date setTimeToMidnight(Date date) {
         Calendar calendar = Calendar.getInstance();
 
@@ -240,21 +239,20 @@ public class connAdapter {
     public static void refreshValues(){
 
         //Setting variables to refresh the cal.
-        String startT = String.valueOf(StartTime());
-        String endT = String.valueOf(EndTime(Long.valueOf(startT)+3024000));
+        String startT = String.valueOf(startTime());
+        String endT = String.valueOf(endTime(Long.valueOf(startT)+3024000));
 
         //Get the new values.
-        String output =getcal(getGlobalId(),getGlobalHash(),startT,endT);
-        String output2=getcredits(getGlobalId(),getGlobalHash());
-        String output3=getexams(getGlobalId(),getGlobalHash());
-        String output4=getsemester(getGlobalId(),getGlobalHash());
+        String output = getCal(getGlobalId(),getGlobalHash(),startT,endT);
+        String output2= getCredits(getGlobalId(),getGlobalHash());
+        String output3= getExams(getGlobalId(),getGlobalHash());
+        String output4= getSemester(getGlobalId(),getGlobalHash());
 
         //Setting the new values.
         setUserFs(output4);
         setUserCredits(output2);
         setUserExams(output3);
         setUserCal(output);
-
     }
 
 }

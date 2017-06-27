@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  * Adapter-class to interact with the internal memory to save the userdata.
  */
 
-public class cacheAdapter{
+public class CacheAdapter {
 
     //Define context == our application.
     static Context fileContext;
@@ -22,12 +22,12 @@ public class cacheAdapter{
     //Save calender to memory.
     boolean saveCaltoMem(String cal){
 
-        String filename = "userCal";
+        String fileName = "userCal";
 
         FileOutputStream outputStream;
 
         try {
-            outputStream = fileContext.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
             outputStream.write(cal.getBytes());
             outputStream.close();
             return true;
@@ -38,15 +38,15 @@ public class cacheAdapter{
     }
 
     //save semester to memory.
-    boolean saveFstoMem(String Fs){
+    boolean saveFstoMem(String fs){
 
-        String filename = "userFs";
+        String fileName = "userFs";
 
         FileOutputStream outputStream;
 
         try {
-            outputStream = fileContext.openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(Fs.getBytes());
+            outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(fs.getBytes());
             outputStream.close();
             return true;
         } catch (Exception e) {
@@ -56,15 +56,15 @@ public class cacheAdapter{
     }
 
     //save credits to memory.
-    boolean saveCredittoMem(String Credits){
+    boolean saveCredittoMem(String credits){
 
-        String filename = "userCredits";
+        String fileName = "userCredits";
 
         FileOutputStream outputStream;
 
         try {
-            outputStream = fileContext.openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(Credits.getBytes());
+            outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(credits.getBytes());
             outputStream.close();
             return true;
         } catch (Exception e) {
@@ -74,15 +74,15 @@ public class cacheAdapter{
     }
 
     //Save exams to memory.
-    boolean saveExamstoMem(String Exams){
+    boolean saveExamstoMem(String exams){
 
-        String filename = "userExams";
+        String fileName = "userExams";
 
         FileOutputStream outputStream;
 
         try {
-            outputStream = fileContext.openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(Exams.getBytes());
+            outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(exams.getBytes());
             outputStream.close();
             return true;
         } catch (Exception e) {
@@ -94,12 +94,12 @@ public class cacheAdapter{
     //Save user id to memory.
     boolean saveUserGlobaltoMem(String user){
 
-        String filename = "userGlobal";
+        String fileName = "userGlobal";
 
         FileOutputStream outputStream;
 
         try {
-            outputStream = fileContext.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
             outputStream.write(user.getBytes());
             outputStream.close();
             return true;
@@ -112,12 +112,12 @@ public class cacheAdapter{
     //Save the hash to internal memory.
     boolean saveHashGlobaltoMem(String hash){
 
-        String filename = "HashGlobal";
+        String fileName = "HashGlobal";
 
         FileOutputStream outputStream;
 
         try {
-            outputStream = fileContext.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
             outputStream.write(hash.getBytes());
             outputStream.close();
             return true;
@@ -138,9 +138,9 @@ public class cacheAdapter{
        
         if (getFileExistence("userCal")){
            
-           String filename = "userCal";
+           String fileName = "userCal";
            FileInputStream fis;
-           fis = fileContext.openFileInput(filename);
+           fis = fileContext.openFileInput(fileName);
            InputStreamReader isr = new InputStreamReader(fis);
            BufferedReader bufferedReader = new BufferedReader(isr);
            StringBuilder sb = new StringBuilder();
@@ -167,9 +167,9 @@ public class cacheAdapter{
 
         if (getFileExistence("userFs")){
 
-            String filename = "userFs";
+            String fileName = "userFs";
             FileInputStream fis;
-            fis = fileContext.openFileInput(filename);
+            fis = fileContext.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -196,9 +196,9 @@ public class cacheAdapter{
 
         if (getFileExistence("userCredits")){
 
-            String filename = "userCredits";
+            String fileName = "userCredits";
             FileInputStream fis;
-            fis = fileContext.openFileInput(filename);
+            fis = fileContext.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -225,9 +225,9 @@ public class cacheAdapter{
 
         if (getFileExistence("userExams")){
 
-            String filename = "userExams";
+            String fileName = "userExams";
             FileInputStream fis;
-            fis = fileContext.openFileInput(filename);
+            fis = fileContext.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -254,9 +254,9 @@ public class cacheAdapter{
 
         if (getFileExistence("userGlobal")){
 
-            String filename = "userGlobal";
+            String fileName = "userGlobal";
             FileInputStream fis;
-            fis = fileContext.openFileInput(filename);
+            fis = fileContext.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -278,14 +278,14 @@ public class cacheAdapter{
         }
     }
 
-    //get the global hash of the User from memory.
+    //Get the global hash of the User from memory.
     String getHashGlobalfromMem() throws FileNotFoundException {
 
         if (getFileExistence("HashGlobal")){
 
-            String filename = "HashGlobal";
+            String fileName = "HashGlobal";
             FileInputStream fis;
-            fis = fileContext.openFileInput(filename);
+            fis = fileContext.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -309,14 +309,14 @@ public class cacheAdapter{
 
     }
 
-    //method to check if the data is up to date and replace it with newer one if given.
-    public String checkdiff(String input, String Cname) throws FileNotFoundException {
-        if (getFileExistence(Cname)){
+    //Method to check if the data is up to date and replace it with newer one if given.
+    public String checkDiff(String input, String cname) throws FileNotFoundException {
+        if (getFileExistence(cname)){
 
             FileOutputStream outputStream;
             FileInputStream inputStream;
 
-            inputStream= fileContext.openFileInput(Cname);
+            inputStream= fileContext.openFileInput(cname);
             InputStreamReader isr = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -337,9 +337,9 @@ public class cacheAdapter{
                 return "Kein Unterschied.";
 
             }else {
-                fileContext.deleteFile(Cname);
+                fileContext.deleteFile(cname);
                 try {
-                    outputStream = fileContext.openFileOutput(Cname, Context.MODE_PRIVATE);
+                    outputStream = fileContext.openFileOutput(cname, Context.MODE_PRIVATE);
                     outputStream.write(input.getBytes());
                     outputStream.close();
                 } catch (Exception e) {

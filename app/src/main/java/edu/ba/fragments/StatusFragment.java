@@ -8,17 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.ba.baassist.ConnAdapter;
 import edu.ba.baassist.R;
-import edu.ba.baassist.connAdapter;
 
 /**
  * Show details of the account in the StatusFragment.
  */
 
 public class StatusFragment extends Fragment {
-
-    //Initialise variables.
-
 
     @Nullable
     @Override
@@ -27,13 +24,13 @@ public class StatusFragment extends Fragment {
         //Set the view.
         View rootView = inflater.inflate(R.layout.fragment_status, container, false);
 
-        //Get global variables from connAdapter.
-        String actExams= connAdapter.UserExams.toString();
-        String actSemester = connAdapter.UserFs.toString();
-        String actCredits = connAdapter.UserCredits.toString();
+        //Get global variables from ConnAdapter.
+        String actExams= ConnAdapter.userExams.toString();
+        String actSemester = ConnAdapter.userFs.toString();
+        String actCredits = ConnAdapter.userCredits.toString();
         String[] exams = actExams.split(",");
 
-
+        //Display the actual information.
         TextView semester = (TextView) rootView.findViewById(R.id.textViewActSemester);
         semester.setText("\nAktuelles Semester: "+actSemester
                             +"\n\nCredits: "+actCredits+" von 180"
@@ -44,8 +41,6 @@ public class StatusFragment extends Fragment {
 
         return rootView;
     }
-
-
  }
 
 

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Adapter for the format of the listview(timetable).
+ * Adapter to format the ListView(timetable).
  */
 
 public class TimetableAdapter extends BaseAdapter {
@@ -25,7 +25,7 @@ public class TimetableAdapter extends BaseAdapter {
 
     }
 
-    //Decides of which type the list element is.
+    //Decides which type the list element is.
     @Override
     public int getItemViewType(int position) {
         if(timetable.get(position) instanceof TimetableItem){
@@ -41,25 +41,25 @@ public class TimetableAdapter extends BaseAdapter {
         return 2;
     }
 
+    //Get the size of the timetable.
     @Override
     public int getCount() {
-
         return timetable.size();
     }
 
+    //Get the actual item of the timetable.
     @Override
     public Object getItem(int i) {
-
         return timetable.get(i);
     }
 
+    //Part of the timetable.
     @Override
     public long getItemId(int i) {
-
         return i;
     }
 
-    //Get the specific layout of the element and create a view for ach element
+    //Get the specific layout of the element and create a view for each element.
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
@@ -77,18 +77,17 @@ public class TimetableAdapter extends BaseAdapter {
                 assert view != null;
                 TextView subject = (TextView) view.findViewById(R.id.itemListViewTxtSubject);
                 TextView teacher = (TextView) view.findViewById(R.id.itemListViewTxtTeacher);
-                TextView time = (TextView) view.findViewById(R.id.itemListViewTxtTime);
+                TextView time_room = (TextView) view.findViewById(R.id.itemListViewTxtTime);
 
                 subject.setText(((TimetableItem)timetable.get(i)).getSubject());
                 teacher.setText(((TimetableItem)timetable.get(i)).getTeacher());
-                time.setText(((TimetableItem)timetable.get(i)).getTime());
+                time_room.setText(((TimetableItem)timetable.get(i)).getTime_room());
                 break;
             case HEADER:
                 assert view != null;
                 TextView title = (TextView) view.findViewById(R.id.itemListViewHeader);
                 title.setText(((String)timetable.get(i)));
                 break;
-
         }
         return view;
     }

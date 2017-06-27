@@ -14,10 +14,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import edu.ba.baassist.ConnAdapter;
 import edu.ba.baassist.R;
 import edu.ba.baassist.TimetableAdapter;
 import edu.ba.baassist.TimetableItem;
-import edu.ba.baassist.connAdapter;
 
 /**
  * Standard fragment which is the base of the Fragment-Manager.
@@ -26,44 +26,44 @@ import edu.ba.baassist.connAdapter;
 
 public class MainFragment extends Fragment{
 
-    long ActTime = System.currentTimeMillis()/1000;
-    Date ActDate = connAdapter.convertUnixtoNormalDate(1475307900);
+    long actTime = System.currentTimeMillis()/1000;
+    Date actDate = ConnAdapter.convertUnixtoNormalDate(1475307900);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        String output=connAdapter.getUserCal();                     // Get Data as String.
+        String output= ConnAdapter.getUserCal();                     // Get data as string.
 
-        String[] timeTableData = output.split("title");             //Array which splits the outpu string in the different Elements.
-        timeTableData = clean(timeTableData);                          //Removing null Elements from Array.
+        String[] timeTableData = output.split("title");             //Array which splits the output string in the different elements.
+        timeTableData = clean(timeTableData);                          //Removing null elements from array.
 
 
         ArrayList<Object> list = new ArrayList<>();                 //List which will be displayed.
 
         for(int i=1; i<timeTableData.length; i++){
 
-            String[] temp=timeTableData[i].split(",");      //Split Data to work with the single Elements.
+            String[] temp=timeTableData[i].split(",");      //Split data to work with the single elements.
 
-            //Values for the single Element.
-            String subject = temp[0].substring(2).replaceAll("\"","");                        //TODO put this into one regex
+            //Values for the single element.
+            String subject = temp[0].substring(2).replaceAll("\"","");
             String teacher = temp[9].replaceAll(":","").replaceAll("\"","");
-            String beginn = temp[1];
+            String begin = temp[1];
             String room=temp[7].substring(temp[7].indexOf(":")+1).replaceAll("\"","");
 
 
-            int beginnOfLessonInt = convertTimeStringToInteger(beginn);        //Integer of start Time.
-            if(beginnOfLessonInt>=ActTime-5500){                                //Start Time of the displayed List.
+            int beginOfLessonInt = convertTimeStringToInteger(begin);        //Integer of start time.
+            if(beginOfLessonInt>= actTime -5500){                                //Start time of the displayed list.
 
-                Date timetableDate = connAdapter.convertUnixtoNormalDate(beginnOfLessonInt);
+                Date timetableDate = ConnAdapter.convertUnixtoNormalDate(beginOfLessonInt);
 
-                if(connAdapter.setTimeToMidnight(timetableDate).after(connAdapter.setTimeToMidnight(ActDate))){
-                    ActDate = timetableDate;
-                    String headerDate = connAdapter.convertUnixtoNormalDateString(beginnOfLessonInt);
+                if(ConnAdapter.setTimeToMidnight(timetableDate).after(ConnAdapter.setTimeToMidnight(actDate))){
+                    actDate = timetableDate;
+                    String headerDate = ConnAdapter.convertUnixtoNormalDateString(beginOfLessonInt);
                     list.add(headerDate);                                           //Add a new header when a new day starts.
                 }
 
-                list.add(new TimetableItem(subject, teacher.replace("instructor", ""), connAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(beginn)) + "\n" + room));   //Add new Element
+                list.add(new TimetableItem(subject, teacher.replace("instructor", ""), ConnAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(begin)) + "\n" + room));   //Add new Element
             }
         }
 
@@ -77,7 +77,7 @@ public class MainFragment extends Fragment{
         return rootView;
     }
 
-    //Method to convert Time String to Int.
+    //Method to convert time string to int.
     public int convertTimeStringToInteger(String input){
         String begOfLesson = input.substring(input.indexOf(":")+1);
 
