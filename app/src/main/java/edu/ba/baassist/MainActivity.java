@@ -19,24 +19,21 @@ import edu.ba.fragments.SettingsFragment;
 import edu.ba.fragments.StatusFragment;
 import edu.ba.fragments.WikiFragment;
 
+/**
+ *Main activity which provides NavigationDrawer and changes fragments on demand.
+ * Only running activity after LoginActivity is closed.
+ */
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //Set NavigationDrawer,Toolbar,FragmentManager on create.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,6 +47,7 @@ public class MainActivity extends AppCompatActivity
         fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
     }
 
+    //Handling back-button of the phone to get back to the MainFragment.
     @Override
     public void onBackPressed() {
         FragmentManager fm = getFragmentManager();
@@ -63,28 +61,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // Inflate the menu; this adds items to the action bar if it is present.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-////        if (id == R.id.action_settings) {
-////            return true;
-////        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
+    //Fragment manager which changes the fragments.
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -110,7 +94,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    //Button in a fragment needs to be initialized in the MainActivity.
     public static void ButtonOnClick(View v) {
-        new SettingsFragment().ButtonOnClick(v);
+        new SettingsFragment().buttonOnClick(v);
     }
 }
