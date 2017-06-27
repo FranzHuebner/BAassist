@@ -327,10 +327,10 @@ public class LoginActivity extends AppCompatActivity {
                 showProgress(false);
                 //after wrong connection show dialog
                 AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
-                alertDialog.setTitle("Fehler bei der Verbindung");
+                alertDialog.setTitle("Fehler bei der Verbindung !");
                 alertDialog.setMessage("Es ist ein Fehler bei der Verbindung zu Campus-Dual aufgetreten!" +
-                        " Bitte überprüfe deine Userid und deinen Userhash." +
-                        " Bitte überprüfe deine Internetverbindung. ");
+                        "\nBitte überprüfe deine Userid und deinen Userhash." +
+                        "\nBitte überprüfe deine Internetverbindung.");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

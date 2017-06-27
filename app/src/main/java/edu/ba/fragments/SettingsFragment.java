@@ -39,9 +39,6 @@ public class SettingsFragment extends Fragment {
         switch (v.getId()) {
             case R.id.clear_cache_button:
                 deleteCache();
-                break;
-
-            case R.id.logout_button:
                 int pid = android.os.Process.myPid();
                 android.os.Process.killProcess(pid);
                 break;
@@ -79,7 +76,6 @@ public class SettingsFragment extends Fragment {
                 break;
         }
     }
-
 
     //Function to wipe the whole cache.
     private static boolean deleteCache() {

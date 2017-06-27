@@ -49,7 +49,6 @@ public class MainFragment extends Fragment{
             String subject = temp[0].substring(2).replaceAll("\"","");                        //TODO put this into one regex
             String teacher = temp[9].replaceAll(":","").replaceAll("\"","");
             String beginn = temp[1];
-            String end=temp[2];
             String room=temp[7].substring(temp[7].indexOf(":")+1).replaceAll("\"","");
 
 
@@ -81,18 +80,13 @@ public class MainFragment extends Fragment{
     //Method to convert Time String to Int.
     public int convertTimeStringToInteger(String input){
         String begOfLesson = input.substring(input.indexOf(":")+1);
-        if(begOfLesson != null){
 
-            int begOfLessonInt = Integer.parseInt(begOfLesson);        //Integer of start Time.
-            return begOfLessonInt;
-        }else {
-            return 2;
-        }
+        return Integer.parseInt(begOfLesson);
     }
 
     //Function to remove null elements in the array
     public static String[] clean(final String[] v) {
-        List<String> list = new ArrayList<String>(Arrays.asList(v));
+        List<String> list = new ArrayList<>(Arrays.asList(v));
         list.removeAll(Collections.singleton(null));
         return list.toArray(new String[list.size()]);
     }
