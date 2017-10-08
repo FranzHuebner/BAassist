@@ -26,6 +26,8 @@ import edu.ba.baassist.TimetableItem;
 
 public class MainFragment extends Fragment{
 
+    String testFilter = "1A";
+
     long actTime = System.currentTimeMillis()/1000;
     Date actDate = ConnAdapter.convertUnixtoNormalDate(1475307900);
 
@@ -36,6 +38,9 @@ public class MainFragment extends Fragment{
         String output= ConnAdapter.getUserCal();                     // Get data as string.
 
         String[] timeTableData = output.split("title");             //Array which splits the output string in the different elements.
+
+        //TODO Filter für Gruppen hier einbauen
+
         timeTableData = clean(timeTableData);                          //Removing null elements from array.
 
 
@@ -89,6 +94,12 @@ public class MainFragment extends Fragment{
         List<String> list = new ArrayList<>(Arrays.asList(v));
         list.removeAll(Collections.singleton(null));
         return list.toArray(new String[list.size()]);
+    }
+
+    //Function for the group-filter
+    public String groupFilter(String inputData, String filter){
+        String outputData=inputData;
+        return outputData;
     }
 
 }
