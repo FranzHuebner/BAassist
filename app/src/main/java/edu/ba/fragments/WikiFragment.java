@@ -11,27 +11,21 @@ import android.webkit.WebView;
 import edu.ba.baassist.R;
 
 /**
- * Created by richa on 14.06.2017.
+ * Fragment which displays a WebPage with a "BA-Wiki".
  */
 
 public class WikiFragment extends Fragment {
 
     public WebView mWebView;
-    String WikiURL = "ba_wiki_host";
 
-
+    //Display the "BA-Wiki" which is a web resource with a WebView.
     @Nullable
     @Override
-
-    //display the "BA-Wiki" which is a web resource with a WebView
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View rootView = inflater.inflate(R.layout.fragment_wiki, container, false);
-
-
         mWebView = (WebView) rootView.findViewById(R.id.webView1);
-        mWebView.loadUrl("https://raw.githubusercontent.com/FranzHuebner/BAassist/master/"+WikiURL);
-
+        mWebView.loadUrl("https://raw.githubusercontent.com/FranzHuebner/BAassist/master/ba_wiki_host");
 
         return rootView;
     }

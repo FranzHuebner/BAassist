@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import edu.ba.baassist.ConnAdapter;
 import edu.ba.baassist.R;
-import edu.ba.baassist.cacheAdapter;
-import edu.ba.baassist.connAdapter;
+import edu.ba.baassist.CacheAdapter;
 
 
 /**
@@ -27,14 +27,13 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-        ButtonOnClick(rootView);
+        buttonOnClick(rootView);
 
         return rootView;
     }
 
-    //Define onclicklistener to see which button is pressed by the user.
-    //Need dialogues to show success // fails.
-    public void ButtonOnClick(View v) {
+    //Define OnClickListener to see which button is pressed by the user.
+    public void buttonOnClick(View v) {
 
         switch (v.getId()) {
             case R.id.clear_cache_button:
@@ -49,27 +48,27 @@ public class SettingsFragment extends Fragment {
 
             case R.id.refresh_status_button:
 
-                new refreshtask();
+                new RefreshTask();
                 try {
-                    new cacheAdapter().checkdiff(connAdapter.getUserCal(),"userCal");
+                    new CacheAdapter().checkDiff(ConnAdapter.getUserCal(),"userCal");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    new cacheAdapter().checkdiff(connAdapter.getUserCredits(),"userCredits");
+                    new CacheAdapter().checkDiff(ConnAdapter.getUserCredits(),"userCredits");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    new cacheAdapter().checkdiff(connAdapter.getUserFs(),"userFs");
+                    new CacheAdapter().checkDiff(ConnAdapter.getUserFs(),"userFs");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    new cacheAdapter().checkdiff(connAdapter.getUserExams(),"userExams");
+                    new CacheAdapter().checkDiff(ConnAdapter.getUserExams(),"userExams");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -79,20 +78,20 @@ public class SettingsFragment extends Fragment {
 
     //Function to wipe the whole cache.
     private static boolean deleteCache() {
-        boolean exist1 = new cacheAdapter().getFileExistence("userGlobal");
-        boolean exist2 = new cacheAdapter().getFileExistence("HashGlobal");
-        boolean exist3 = new cacheAdapter().getFileExistence("userExams");
-        boolean exist4 = new cacheAdapter().getFileExistence("userCredits");
-        boolean exist5 = new cacheAdapter().getFileExistence("userFs");
-        boolean exist6 = new cacheAdapter().getFileExistence("userCal");
+        boolean exist1 = new CacheAdapter().getFileExistence("userGlobal");
+        boolean exist2 = new CacheAdapter().getFileExistence("HashGlobal");
+        boolean exist3 = new CacheAdapter().getFileExistence("userExams");
+        boolean exist4 = new CacheAdapter().getFileExistence("userCredits");
+        boolean exist5 = new CacheAdapter().getFileExistence("userFs");
+        boolean exist6 = new CacheAdapter().getFileExistence("userCal");
 
         if (exist1 && exist2 && exist3 && exist4 && exist5 && exist6) {
-            new cacheAdapter().deleteEntry("userGlobal");
-            new cacheAdapter().deleteEntry("HashGlobal");
-            new cacheAdapter().deleteEntry("userExams");
-            new cacheAdapter().deleteEntry("userCredits");
-            new cacheAdapter().deleteEntry("userFs");
-            new cacheAdapter().deleteEntry("userCal");
+            new CacheAdapter().deleteEntry("userGlobal");
+            new CacheAdapter().deleteEntry("HashGlobal");
+            new CacheAdapter().deleteEntry("userExams");
+            new CacheAdapter().deleteEntry("userCredits");
+            new CacheAdapter().deleteEntry("userFs");
+            new CacheAdapter().deleteEntry("userCal");
             return true;
         } else {
             return false;
@@ -100,24 +99,21 @@ public class SettingsFragment extends Fragment {
     }
 
     //Async task to refresh the values.
-    private class refreshtask extends AsyncTask<Void,Void,Void> {
+    private class RefreshTask extends AsyncTask<Void,Void,Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
             boolean reachable = false;
             try {
-                reachable = connAdapter.isReachable("https://erp.campus-dual.de/sap/bc/webdynpro/sap/zba_initss?uri=https%3a%2f%2fselfservice.campus-dual.de%2findex%2flogin&sap-client=100&sap-language=DE#");
+                reachable = ConnAdapter.isReachable("https://erp.campus-dual.de/sap/bc/webdynpro/sap/zba_initss?uri=https%3a%2f%2fselfservice.campus-dual.de%2findex%2flogin&sap-client=100&sap-language=DE#");
             } catch (IOException e) {
-
                 e.printStackTrace();
             }
 
             if (reachable) {
-                connAdapter.refreshValues();
+                ConnAdapter.refreshValues();
             }
             return null;
         }
     }
-
-
 }

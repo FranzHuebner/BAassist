@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         //Set context for our adapter.
-        cacheAdapter.fileContext =  getApplicationContext();
+        CacheAdapter.fileContext =  getApplicationContext();
 
         //Set up the login form.
         super.onCreate(savedInstanceState);
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
+        //Start the actual login-process with an onclick listener.
         mSignInButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -81,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
-
 
     }
 
@@ -101,12 +100,12 @@ public class LoginActivity extends AppCompatActivity {
 
     //Check if data is inside of cache.
     private boolean checkCache(){
-        boolean exist1 = new cacheAdapter().getFileExistence("userGlobal");
-        boolean exist2 = new cacheAdapter().getFileExistence("HashGlobal");
-        boolean exist3 = new cacheAdapter().getFileExistence("userExams");
-        boolean exist4 = new cacheAdapter().getFileExistence("userCredits");
-        boolean exist5 = new cacheAdapter().getFileExistence("userFs");
-        boolean exist6 = new cacheAdapter().getFileExistence("userCal");
+        boolean exist1 = new CacheAdapter().getFileExistence("userGlobal");
+        boolean exist2 = new CacheAdapter().getFileExistence("HashGlobal");
+        boolean exist3 = new CacheAdapter().getFileExistence("userExams");
+        boolean exist4 = new CacheAdapter().getFileExistence("userCredits");
+        boolean exist5 = new CacheAdapter().getFileExistence("userFs");
+        boolean exist6 = new CacheAdapter().getFileExistence("userCal");
 
         if(exist1 && exist2 && exist3 && exist4 && exist5 && exist6){
             try {
@@ -121,35 +120,35 @@ public class LoginActivity extends AppCompatActivity {
     }
     //Get the login-data from cache.
     private static void getLoginData () throws FileNotFoundException {
-        String user =new cacheAdapter().getUserGlobalfromMem();
-        String hash = new cacheAdapter().getHashGlobalfromMem();
-        connAdapter.setGlobalId(user);
-        connAdapter.setGlobalHash(hash);
+        String user =new CacheAdapter().getUserGlobalfromMem();
+        String hash = new CacheAdapter().getHashGlobalfromMem();
+        ConnAdapter.setGlobalId(user);
+        ConnAdapter.setGlobalHash(hash);
     }
 
     //Get other information from cache.
     private static void getOtherData() throws FileNotFoundException{
-        String cal =new cacheAdapter().getCalfromMem();
-        String fs  =new cacheAdapter().getFsfromMem();
-        String exams=new cacheAdapter().getExamsfromMem();
-        String credits= new cacheAdapter().getCreditsfromMem();
-        connAdapter.setUserExams(exams);
-        connAdapter.setUserCredits(credits);
-        connAdapter.setUserFs(fs);
-        connAdapter.setUserCal(cal);
+        String cal =new CacheAdapter().getCalfromMem();
+        String fs  =new CacheAdapter().getFsfromMem();
+        String exams=new CacheAdapter().getExamsfromMem();
+        String credits= new CacheAdapter().getCreditsfromMem();
+        ConnAdapter.setUserExams(exams);
+        ConnAdapter.setUserCredits(credits);
+        ConnAdapter.setUserFs(fs);
+        ConnAdapter.setUserCal(cal);
     }
 
-    //Set information to cache
+    //Set information to cache.
     private static void setCache(){
-        new cacheAdapter().saveCaltoMem(connAdapter.getUserCal());
-        new cacheAdapter().saveCredittoMem(connAdapter.getUserCredits());
-        new cacheAdapter().saveExamstoMem(connAdapter.getUserExams());
-        new cacheAdapter().saveFstoMem(connAdapter.getUserFs());
-        new cacheAdapter().saveHashGlobaltoMem(connAdapter.getGlobalHash());
-        new cacheAdapter().saveUserGlobaltoMem(connAdapter.getGlobalId());
+        new CacheAdapter().saveCaltoMem(ConnAdapter.getUserCal());
+        new CacheAdapter().saveCredittoMem(ConnAdapter.getUserCredits());
+        new CacheAdapter().saveExamstoMem(ConnAdapter.getUserExams());
+        new CacheAdapter().saveFstoMem(ConnAdapter.getUserFs());
+        new CacheAdapter().saveHashGlobaltoMem(ConnAdapter.getGlobalHash());
+        new CacheAdapter().saveUserGlobaltoMem(ConnAdapter.getGlobalId());
     }
 
-
+    //Attempt to login.
     private void attemptLogin() {
 
         //Error->go back.
@@ -179,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        //Check if user entered an username && it is regular.
+        //Check if the user entered an username and it is regular.
         if (TextUtils.isEmpty(username)) {
             mUserId.setError(getString(R.string.error_field_required));
             focusView = mUserId;
@@ -258,20 +257,20 @@ public class LoginActivity extends AppCompatActivity {
 
             //Check if campus dual is working && login with provided hash and userid.
             try {
-                reachable = connAdapter.isReachable("https://erp.campus-dual.de/sap/bc/webdynpro/sap/zba_initss?uri=https%3a%2f%2fselfservice.campus-dual.de%2findex%2flogin&sap-client=100&sap-language=DE#");
-                } catch (IOException e) {
+                reachable = ConnAdapter.isReachable("https://erp.campus-dual.de/sap/bc/webdynpro/sap/zba_initss?uri=https%3a%2f%2fselfservice.campus-dual.de%2findex%2flogin&sap-client=100&sap-language=DE#");
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
             //Try to login with provided data.
-            boolean UserCheck =connAdapter.logInconnection(username,mHash);
+            boolean userCheck = ConnAdapter.loginConnection(username,mHash);
 
             //Set personal-values as global objects for later usage.
-            connAdapter.setGlobalHash(mHash);
-            connAdapter.setGlobalId(username);
+            ConnAdapter.setGlobalHash(mHash);
+            ConnAdapter.setGlobalId(username);
 
             //Return true if successful or false if something failed.
-            return (reachable && UserCheck);
+            return (reachable && userCheck);
         }
 
         //After Login-credentials are validated.
@@ -285,12 +284,12 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
 
                 //Set times for the url.
-                String startT = String.valueOf(connAdapter.StartTime());
-                String endT = String.valueOf(connAdapter.EndTime(Long.valueOf(startT)+3024000));
+                String startT = String.valueOf(ConnAdapter.startTime());
+                String endT = String.valueOf(ConnAdapter.endTime(Long.valueOf(startT)+3024000));
 
                 String output="";
                 try {
-                    output= new timetableTask(connAdapter.getGlobalId(),connAdapter.getGlobalHash(),startT,endT)
+                    output= new TimetableTask(ConnAdapter.getGlobalId(), ConnAdapter.getGlobalHash(),startT,endT)
                             .execute()
                             .get();
                 } catch (InterruptedException | ExecutionException e) {
@@ -298,20 +297,20 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 //Set global value of the cal
-                connAdapter.setUserCal(output);
+                ConnAdapter.setUserCal(output);
 
                 String output2;
                 try {
-                    output2= new Semestertask(connAdapter.getGlobalId(),connAdapter.getGlobalHash())
+                    output2= new SemesterTask(ConnAdapter.getGlobalId(), ConnAdapter.getGlobalHash())
                             .execute()
                             .get();
 
                     String[] status= output2.split("\n");
 
-                    connAdapter.setUserFs(status[0].replaceAll("\"",""));
-                    connAdapter.setUserCredits(status[1]);
+                    ConnAdapter.setUserFs(status[0].replaceAll("\"",""));
+                    ConnAdapter.setUserCredits(status[1]);
 
-                    connAdapter.setUserExams(status[2]);
+                    ConnAdapter.setUserExams(status[2]);
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
@@ -349,39 +348,39 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Async task.
-    private class timetableTask extends AsyncTask<Void, Void,String> {
+    private class TimetableTask extends AsyncTask<Void, Void,String> {
 
-        //Params.
+        //Set params.
         private String userName;
         private String hashValue;
         private String startTime;
         private String endTime;
 
-        //Sets.
-        timetableTask(String id, String hash, String start, String end){
+        //Take params from function.
+        TimetableTask(String id, String hash, String start, String end){
             userName=id;
             hashValue=hash;
             startTime=start;
             endTime=end;
         }
 
-        //get Content
+        //Get Content.
         @Override
         protected String doInBackground(Void...params){
-            return connAdapter.getcal(userName,hashValue, startTime, endTime);
+            return ConnAdapter.getCal(userName,hashValue, startTime, endTime);
         }
 
     }
 
-    //Second async task
-    private class Semestertask extends AsyncTask<Void, Void,String> {
+    //Second async task.
+    private class SemesterTask extends AsyncTask<Void, Void,String> {
 
         //Params.
         private String userName;
         private String hashValue;
 
         //Sets.
-        Semestertask(String id, String hash) {
+        SemesterTask(String id, String hash) {
             userName = id;
             hashValue = hash;
         }
@@ -389,7 +388,7 @@ public class LoginActivity extends AppCompatActivity {
         //Get content.
         @Override
         protected String doInBackground(Void... params) {
-            return connAdapter.getsemester(userName, hashValue) + connAdapter.getcredits(userName, hashValue) + connAdapter.getexams(userName, hashValue);
+            return ConnAdapter.getSemester(userName, hashValue) + ConnAdapter.getCredits(userName, hashValue) + ConnAdapter.getExams(userName, hashValue);
         }
     }
 }

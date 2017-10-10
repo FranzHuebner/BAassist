@@ -12,6 +12,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#000000"
+        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_marginLeft="40sp"/>
 
