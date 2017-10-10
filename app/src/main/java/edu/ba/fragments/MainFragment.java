@@ -56,6 +56,7 @@ public class MainFragment extends Fragment{
             String subject = temp[0].substring(2).replaceAll("\"","");
             String teacher = temp[9].replaceAll(":","").replaceAll("\"","");
             String begin = temp[1];
+            String end = temp[2];
             String room=temp[7].substring(temp[7].indexOf(":")+1).replaceAll("\"","");
 
 
@@ -70,7 +71,7 @@ public class MainFragment extends Fragment{
                     list.add(headerDate);                                           //Add a new header when a new day starts.
                 }
 
-                list.add(new TimetableItem(subject, teacher.replace("instructor", ""), ConnAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(begin)) + "\n" + room));   //Add new Element
+                list.add(new TimetableItem(subject, teacher.replace("instructor", ""), ConnAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(begin)) + "\n" + ConnAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(end)) + "\n" + room));   //Add new Element
             }
         }
 
