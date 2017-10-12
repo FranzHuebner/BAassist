@@ -43,7 +43,8 @@ public class MainFragment extends Fragment{
 
         timeTableData = clean(timeTableData);                          //Removing null elements from array.
 
-        timeTableData = groupFilter(timeTableData, testFilterGroup);
+        String userFilter=ConnAdapter.getUserFilter();
+        timeTableData = groupFilter(timeTableData, userFilter);        //ConnAdapter.getUserFilter()
 
         ArrayList<Object> list = new ArrayList<>();                 //List which will be displayed.
 

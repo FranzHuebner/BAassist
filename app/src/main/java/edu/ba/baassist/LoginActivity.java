@@ -143,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         ConnAdapter.setUserCredits(credits);
         ConnAdapter.setUserFs(fs);
         ConnAdapter.setUserCal(cal);
+        ConnAdapter.setFilterGlobal(GroupFilter);
     }
 
     //Set information to cache.
