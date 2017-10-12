@@ -27,7 +27,6 @@ import edu.ba.baassist.TimetableItem;
 public class MainFragment extends Fragment{
 
     String testFilterGroup = "Gruppe 2,Gruppe 1A";
-    String testFilterSubGroup = "1A";
 
     long actTime = System.currentTimeMillis()/1000;
     Date actDate = ConnAdapter.convertUnixtoNormalDate(1475307900);
