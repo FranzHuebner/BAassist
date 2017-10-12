@@ -101,18 +101,23 @@ public class MainFragment extends Fragment{
     //Function for the group-filter
     public String[] groupFilter(String[] inputData, String filterString){
         String[] outputData = new String[inputData.length];
-        String[] filters = filterString.split(",");
-        boolean filterFlag;
+        if(!(filterString.equals(""))) {
+            String[] filters = filterString.split(",");
+            boolean filterFlag;
 
-        for(int i=0; i<inputData.length; i++){
-            filterFlag = false;
-            for(int k=0; k<filters.length; k++){
-                if(inputData[i].contains(filters[k].toString())){
-                    filterFlag = true;
+            for (int i = 0; i < inputData.length; i++) {
+                filterFlag = false;
+                for (int k = 0; k < filters.length; k++) {
+                    if (inputData[i].contains(filters[k].toString())) {
+                        filterFlag = true;
+                    }
                 }
-            }if(!filterFlag){
-                outputData[i]=inputData[i];
+                if (!filterFlag) {
+                    outputData[i] = inputData[i];
+                }
             }
+        }else{
+            outputData=inputData;
         }
         outputData = clean(outputData);
         return outputData;
