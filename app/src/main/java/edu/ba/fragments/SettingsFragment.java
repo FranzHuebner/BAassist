@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -48,12 +49,9 @@ public class SettingsFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         switch (which){
-
                             case DialogInterface.BUTTON_POSITIVE:
 
                                 deleteCache();
-
-
                                 //ActivityCompat.finishAffinity((Activity) v.getContext());
                                 System.exit(0);
 
@@ -67,8 +65,8 @@ public class SettingsFragment extends Fragment {
                 };
 
                 AlertDialog.Builder alertBuildercache = new AlertDialog.Builder(v.getContext());
-                alertBuildercache.setMessage("Bestätigen").setPositiveButton("OK", dialogClickListenercache)
-                        .setNegativeButton("Abbrechen", dialogClickListenercache).show();
+                alertBuildercache.setMessage("Möchtest du alle Daten löschen?").setTitle("Warnung").setPositiveButton("JA", dialogClickListenercache)
+                        .setNegativeButton("Nein", dialogClickListenercache).show();
 
                 break;
 
@@ -76,20 +74,16 @@ public class SettingsFragment extends Fragment {
 
                 LayoutInflater layoutInflat = LayoutInflater.from(v.getContext());
                 View DiaView = layoutInflat.inflate(R.layout.alert_filter_group, null);
-
                  final EditText userInput = (EditText) DiaView
                         .findViewById(R.id.editText);
-
                 String myFilter;
-
                 try{
                      myFilter = new CacheAdapter().getFilterfromMem();
                 } catch (FileNotFoundException e){
                     myFilter= "";
                 }
 
-                if(new CacheAdapter().getFileExistence("userFilter"))
-                {
+                if(new CacheAdapter().getFileExistence("userFilter")) {
                     userInput.setText(myFilter, TextView.BufferType.EDITABLE);
                 }
 
@@ -101,7 +95,7 @@ public class SettingsFragment extends Fragment {
                         switch (which){
 
                             case DialogInterface.BUTTON_POSITIVE:
-
+                                //Edit global vars
                                 ConnAdapter.setFilterGlobal(userInput.getText().toString());
                                 new CacheAdapter().saveFiltertoMem(userInput.getText().toString());
 
@@ -115,7 +109,7 @@ public class SettingsFragment extends Fragment {
                 };
 
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(v.getContext());
-                alertBuilder.setMessage("Filtereinstellungen").setPositiveButton("Hinzufuegen", dialogClickListener)
+                alertBuilder.setTitle("Filtereinstellungen").setPositiveButton("Hinzufügen", dialogClickListener)
                     .setNegativeButton("Abbrechen", dialogClickListener).setView(DiaView).show();
 
 
@@ -123,31 +117,40 @@ public class SettingsFragment extends Fragment {
 
             case R.id.refresh_status_button:
 
+                //Download new data
                 new RefreshTask().execute();
-
+                String result="";
+                //Check difference between cache and vars
                 try {
-                        new CacheAdapter().checkDiff(ConnAdapter.getUserCal(),"userCal");
+                    result=new CacheAdapter().checkDiff(ConnAdapter.getUserCal(),"userCal");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    new CacheAdapter().checkDiff(ConnAdapter.getUserCredits(),"userCredits");
+                    result=new CacheAdapter().checkDiff(ConnAdapter.getUserCredits(),"userCredits");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    new CacheAdapter().checkDiff(ConnAdapter.getUserFs(),"userFs");
+                    result=new CacheAdapter().checkDiff(ConnAdapter.getUserFs(),"userFs");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    new CacheAdapter().checkDiff(ConnAdapter.getUserExams(),"userExams");
+                    result = new CacheAdapter().checkDiff(ConnAdapter.getUserExams(),"userExams");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
+
+                if(result.equals("Datei überschrieben.")){
+                    Toast.makeText(v.getContext(),"Daten aktualisiert.", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(v.getContext(),"Daten sind auf dem aktuellen Stand.", Toast.LENGTH_LONG).show();
+                }
+
                 break;
         }
     }
@@ -183,7 +186,6 @@ public class SettingsFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            boolean reachable = false;
             try {
                 if (ConnAdapter.isReachable("https://erp.campus-dual.de/sap/bc/webdynpro/sap/zba_initss?uri=https%3a%2f%2fselfservice.campus-dual.de%2findex%2flogin&sap-client=100&sap-language=DE#"))
                 {

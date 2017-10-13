@@ -29,6 +29,7 @@ public class StatusFragment extends Fragment {
         String actSemester = ConnAdapter.userFs.toString();
         String actCredits = ConnAdapter.userCredits.toString();
         String[] exams = actExams.split(",");
+        actSemester=actSemester.replace("\"","");
 
         //Display the actual information.
         TextView semester = (TextView) rootView.findViewById(R.id.textViewActSemester);
