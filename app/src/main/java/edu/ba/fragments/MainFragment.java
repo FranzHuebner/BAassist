@@ -43,7 +43,14 @@ public class MainFragment extends Fragment{
 
         timeTableData = clean(timeTableData);                          //Removing null elements from array.
 
+
         String userFilter=ConnAdapter.getUserFilter();
+
+        //Check start
+        if(userFilter == null){
+            userFilter ="";
+        }
+
         timeTableData = groupFilter(timeTableData, userFilter);        //ConnAdapter.getUserFilter()
 
         ArrayList<Object> list = new ArrayList<>();                 //List which will be displayed.
@@ -102,7 +109,7 @@ public class MainFragment extends Fragment{
     //Function for the group-filter
     public String[] groupFilter(String[] inputData, String filterString){
         String[] outputData = new String[inputData.length];
-        if(!(filterString.equals(""))) {
+        if(!(filterString.isEmpty() || filterString.equals("Datei nicht vorhanden."))) {
             String[] filters = filterString.split(",");
             boolean filterFlag;
 
