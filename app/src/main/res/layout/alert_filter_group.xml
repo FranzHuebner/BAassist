@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bitte gib hier die Textfragmente ein, die nicht in deiner Timeline erscheinen sollen. \nTrenne die Bestandteile bitte mit einem Komma: \nz.B. Gruppe 2,Gr. 3A"
+        android:text="Bitte gib hier die Textfragmente ein, die nicht in deiner Timeline erscheinen sollen. \nTrenne die Bestandteile bitte mit einem Komma: \n\nz.B. Gruppe 2,Gr. 3A"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
