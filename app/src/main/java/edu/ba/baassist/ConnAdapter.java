@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
@@ -32,6 +33,9 @@ public class ConnAdapter {
     private static Object userGlobal;
     private static Object hashGlobal;
 
+
+    private static Object filterGlobal;
+
     //Public setter methods.
     static void setUserCal(String cal){
         userCal = cal;
@@ -57,6 +61,11 @@ public class ConnAdapter {
         hashGlobal = hash;
     }
 
+    public static void setFilterGlobal(String filter){
+        filterGlobal = filter;
+    }
+
+
     //Public getter-methods.
     public static String getUserCal(){
         return ((String) userCal);
@@ -74,13 +83,18 @@ public class ConnAdapter {
         return ((String) userCredits);
     }
 
-    static String getGlobalId(){
+    public static String getGlobalId(){
         return ((String) userGlobal);
     }
 
-    static String getGlobalHash(){
+    public static String getGlobalHash(){
         return ((String) hashGlobal);
     }
+
+    public static String getUserFilter(){
+        return ((String) filterGlobal);
+    }
+
 
     //Function to open the streamreader and wrap the response to a string.
     private static String getUrlContents(String theUrl) {
@@ -91,7 +105,7 @@ public class ConnAdapter {
             //params need to be inside try
             URL url = new URL(theUrl);
             HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
             String line;
 
             //Read buffer to string.
@@ -175,7 +189,7 @@ public class ConnAdapter {
     }
 
     //Get the credits of the user.
-    static String getCredits(String username, String hash){
+    public static String getCredits(String username, String hash){
         String url ="https://selfservice.campus-dual.de/dash/getcp?user="+username+"&hash="+hash;
         return getUrlContents(url);
     }

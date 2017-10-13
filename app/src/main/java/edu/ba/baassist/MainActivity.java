@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     //Set NavigationDrawer,Toolbar,FragmentManager on create.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -97,5 +98,9 @@ public class MainActivity extends AppCompatActivity
     //Button in a fragment needs to be initialized in the MainActivity.
     public static void ButtonOnClick(View v) {
         new SettingsFragment().buttonOnClick(v);
+    }
+
+    public void Close(){
+        this.finishAffinity();
     }
 }
