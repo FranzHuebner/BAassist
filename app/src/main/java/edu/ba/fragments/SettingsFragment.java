@@ -1,36 +1,23 @@
 package edu.ba.fragments;
 
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Calendar;
 
-import edu.ba.baassist.ConnAdapter;
-import edu.ba.baassist.MainActivity;
-import edu.ba.baassist.R;
 import edu.ba.baassist.CacheAdapter;
 import edu.ba.baassist.ConnAdapter;
-import static android.R.id.message;
-
+import edu.ba.baassist.R;
 
 /**
  * Fragment to change personal data and settings.
@@ -49,18 +36,39 @@ public class SettingsFragment extends Fragment {
 
 
     //Define OnClickListener to see which button is pressed by the user.
-    public void buttonOnClick(View v) {
+    public void buttonOnClick( View v) {
 
         switch (v.getId()) {
 
             //Clear all ++ restart app
             case R.id.clear_cache_button:
 
+                DialogInterface.OnClickListener dialogClickListenercache = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                deleteCache();
+                        switch (which){
 
-                ActivityCompat.finishAffinity((Activity) v.getContext());
-                System.exit(0);
+                            case DialogInterface.BUTTON_POSITIVE:
+
+                                deleteCache();
+
+
+                                //ActivityCompat.finishAffinity((Activity) v.getContext());
+                                System.exit(0);
+
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder alertBuildercache = new AlertDialog.Builder(v.getContext());
+                alertBuildercache.setMessage("Bestätigen").setPositiveButton("OK", dialogClickListenercache)
+                        .setNegativeButton("Abbrechen", dialogClickListenercache).show();
 
                 break;
 
@@ -155,6 +163,7 @@ public class SettingsFragment extends Fragment {
         boolean exist6 = new CacheAdapter().getFileExistence("userCal");
         boolean exist7 = new CacheAdapter().getFileExistence("userFilter");
 
+        //TODO rework structure
         if (exist1 && exist2 && exist3 && exist4 && exist5 && exist6 || exist7) {
             new CacheAdapter().deleteEntry("userGlobal");
             new CacheAdapter().deleteEntry("HashGlobal");
