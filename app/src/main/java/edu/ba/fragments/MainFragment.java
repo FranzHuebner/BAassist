@@ -26,8 +26,7 @@ import edu.ba.baassist.TimetableItem;
 
 public class MainFragment extends Fragment{
 
-    String testFilterGroup = "2";
-    String testFilterSubGroup = "1A";
+    String testFilterGroup = "Gruppe 2,Gruppe 1A";
 
     long actTime = System.currentTimeMillis()/1000;
     Date actDate = ConnAdapter.convertUnixtoNormalDate(1475307900);
@@ -40,11 +39,18 @@ public class MainFragment extends Fragment{
 
         String[] timeTableData = output.split("title");             //Array which splits the output string in the different elements.
 
-        //TODO Filter für Gruppen hier einbauen
 
         timeTableData = clean(timeTableData);                          //Removing null elements from array.
 
-        timeTableData = groupFilter(timeTableData, testFilterGroup, testFilterSubGroup);
+
+        String userFilter=ConnAdapter.getUserFilter();
+
+        //Check start
+        if(userFilter == null){
+            userFilter ="";
+        }
+
+        timeTableData = groupFilter(timeTableData, userFilter);        //ConnAdapter.getUserFilter()
 
         ArrayList<Object> list = new ArrayList<>();                 //List which will be displayed.
 
@@ -56,6 +62,7 @@ public class MainFragment extends Fragment{
             String subject = temp[0].substring(2).replaceAll("\"","");
             String teacher = temp[9].replaceAll(":","").replaceAll("\"","");
             String begin = temp[1];
+            String end = temp[2];
             String room=temp[7].substring(temp[7].indexOf(":")+1).replaceAll("\"","");
 
 
@@ -70,7 +77,7 @@ public class MainFragment extends Fragment{
                     list.add(headerDate);                                           //Add a new header when a new day starts.
                 }
 
-                list.add(new TimetableItem(subject, teacher.replace("instructor", ""), ConnAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(begin)) + "\n" + room));   //Add new Element
+                list.add(new TimetableItem(subject, teacher.replace("instructor", ""), ConnAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(begin)) + "\n" + ConnAdapter.convertUnixtoNormalTimeString(convertTimeStringToInteger(end)) + "\n" + room));   //Add new Element
             }
         }
 
@@ -99,23 +106,25 @@ public class MainFragment extends Fragment{
     }
 
     //Function for the group-filter
-    public String[] groupFilter(String[] inputData, String notGroup, String notSubGroup){
+    public String[] groupFilter(String[] inputData, String filterString){
         String[] outputData = new String[inputData.length];
-        for(int i=0; i<inputData.length; i++){
-            if(inputData[i].contains("Gruppe")){
-                if (!(inputData[i].contains("Gruppe "+notGroup)) && !(inputData[i].contains("Gruppe "+notSubGroup))){
-                    outputData[i]=inputData[i];
-                }
+        if(!(filterString.isEmpty() || filterString.equals("Datei nicht vorhanden."))) {
+            String[] filters = filterString.split(",");
+            boolean filterFlag;
 
-            }else if(inputData[i].contains("Gr.")){
-                if (!(inputData[i].contains("Gr. "+notGroup)) && !(inputData[i].contains("Gr. "+notSubGroup))){
-                    outputData[i]=inputData[i];
+            for (int i = 0; i < inputData.length; i++) {
+                filterFlag = false;
+                for (int k = 0; k < filters.length; k++) {
+                    if (inputData[i].contains(filters[k].toString())) {
+                        filterFlag = true;
+                    }
+                }
+                if (!filterFlag) {
+                    outputData[i] = inputData[i];
                 }
             }
-            else{
-                outputData[i]=inputData[i];
-            }
-
+        }else{
+            outputData=inputData;
         }
         outputData = clean(outputData);
         return outputData;

@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    //Check if data is inside of cache.
+    //Check  if necessary data is inside of cache.
     private boolean checkCache(){
         boolean exist1 = new CacheAdapter().getFileExistence("userGlobal");
         boolean exist2 = new CacheAdapter().getFileExistence("HashGlobal");
@@ -132,10 +132,18 @@ public class LoginActivity extends AppCompatActivity {
         String fs  =new CacheAdapter().getFsfromMem();
         String exams=new CacheAdapter().getExamsfromMem();
         String credits= new CacheAdapter().getCreditsfromMem();
+        String GroupFilter = new CacheAdapter().getFilterfromMem();
+
+        if(GroupFilter.equals("Datei nicht vorhanden.")){
+            ConnAdapter.setFilterGlobal("");
+            new CacheAdapter().saveFiltertoMem("");
+        }
+
         ConnAdapter.setUserExams(exams);
         ConnAdapter.setUserCredits(credits);
         ConnAdapter.setUserFs(fs);
         ConnAdapter.setUserCal(cal);
+        ConnAdapter.setFilterGlobal(GroupFilter);
     }
 
     //Set information to cache.

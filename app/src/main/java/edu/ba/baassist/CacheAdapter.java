@@ -127,6 +127,24 @@ public class CacheAdapter {
         }
     }
 
+    //Save the GroupFilter to internal memory.
+    public boolean saveFiltertoMem(String hash){
+
+        String fileName = "userFilter";
+
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(hash.getBytes());
+            outputStream.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     //Check if a file is existent.
     public boolean getFileExistence(String fileName){
         File file = fileContext.getFileStreamPath(fileName);
@@ -309,6 +327,35 @@ public class CacheAdapter {
 
     }
 
+    //Method to get the Groupfilter from memory.
+   public String getFilterfromMem() throws FileNotFoundException {
+
+        if (getFileExistence("userFilter")){
+
+            String fileName = "userFilter";
+            FileInputStream fis;
+            fis = fileContext.openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            String output;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+                output =sb.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+                output=e.toString();
+            }
+            return output;
+
+        }else {
+            return "Datei nicht vorhanden.";
+        }
+    }
+
     //Method to check if the data is up to date and replace it with newer one if given.
     public String checkDiff(String input, String cname) throws FileNotFoundException {
         if (getFileExistence(cname)){
@@ -322,6 +369,7 @@ public class CacheAdapter {
             StringBuilder sb = new StringBuilder();
             String line;
             String output;
+
             try {
                 while ((line = bufferedReader.readLine()) != null) {
                     sb.append(line);
@@ -342,6 +390,8 @@ public class CacheAdapter {
                     outputStream = fileContext.openFileOutput(cname, Context.MODE_PRIVATE);
                     outputStream.write(input.getBytes());
                     outputStream.close();
+                    //set connadapter
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
