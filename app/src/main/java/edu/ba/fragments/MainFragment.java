@@ -39,7 +39,6 @@ public class MainFragment extends Fragment{
 
         String[] timeTableData = output.split("title");             //Array which splits the output string in the different elements.
 
-        //TODO Filter für Gruppen hier einbauen
 
         timeTableData = clean(timeTableData);                          //Removing null elements from array.
 
