@@ -1,11 +1,11 @@
 package edu.ba.baassist;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,6 +28,7 @@ public class CacheAdapter {
         outputStream = fileContext.openFileOutput(fileName, Context.MODE_PRIVATE);
         outputStream.write(content.getBytes());
         outputStream.close();
+        Log.d(CacheAdapter.class.getSimpleName(), "Successfully wrote to: " + fileName);
     }
 
     //Save calender to memory.
@@ -54,7 +55,12 @@ public class CacheAdapter {
     //Check if a file exists.
     public static boolean getFileExistence(String fileName) {
         File file = fileContext.getFileStreamPath(fileName);
-        return file.exists();
+        if (!file.exists()) {
+            Log.w(CacheAdapter.class.getSimpleName(), "File not found: " + fileName);
+            return false;
+        }
+
+        return true;
     }
 
     private static String getFileContent(String fileName) {
@@ -77,7 +83,7 @@ public class CacheAdapter {
         }
 
         catch (IOException e) {
-            e.printStackTrace();
+            Log.e(CacheAdapter.class.getSimpleName(), "Could not get content from: " + fileName, e);
             output = e.toString();
         }
 
@@ -112,8 +118,10 @@ public class CacheAdapter {
         if (oldContent.equals(FILE_NOT_FOUND_MESSAGE))
             return FILE_NOT_FOUND_MESSAGE;
 
-        if (oldContent.equals(input))
+        if (oldContent.equals(input)) {
+            Log.d(CacheAdapter.class.getSimpleName(), "File '" + cname + "' is up to date");
             return "Kein Unterschied.";
+        }
 
         fileContext.deleteFile(cname);
         store(input, cname);
