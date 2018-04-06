@@ -31,7 +31,6 @@ import java.util.concurrent.ExecutionException;
  * Goto MainActivity after completion.
  */
 
-
 public class LoginActivity extends AppCompatActivity {
 
     //Params.
@@ -89,54 +88,52 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(checkCache()){
-            try {
-                getOtherData();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            getOtherData();
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
     }
 
     //Check  if necessary data is inside of cache.
     private boolean checkCache(){
-        boolean exist1 = new CacheAdapter().getFileExistence("userGlobal");
-        boolean exist2 = new CacheAdapter().getFileExistence("HashGlobal");
-        boolean exist3 = new CacheAdapter().getFileExistence("userExams");
-        boolean exist4 = new CacheAdapter().getFileExistence("userCredits");
-        boolean exist5 = new CacheAdapter().getFileExistence("userFs");
-        boolean exist6 = new CacheAdapter().getFileExistence("userCal");
+        boolean exist1 = CacheAdapter.getFileExistence("userGlobal");
+        boolean exist2 = CacheAdapter.getFileExistence("HashGlobal");
+        boolean exist3 = CacheAdapter.getFileExistence("userExams");
+        boolean exist4 = CacheAdapter.getFileExistence("userCredits");
+        boolean exist5 = CacheAdapter.getFileExistence("userFs");
+        boolean exist6 = CacheAdapter.getFileExistence("userCal");
 
         if(exist1 && exist2 && exist3 && exist4 && exist5 && exist6){
-            try {
-                getLoginData();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            getLoginData();
             return true;
-        }else {
-            return false;
         }
+
+        return false;
     }
     //Get the login-data from cache.
-    private static void getLoginData () throws FileNotFoundException {
-        String user =new CacheAdapter().getUserGlobalfromMem();
-        String hash = new CacheAdapter().getHashGlobalfromMem();
+    private static void getLoginData () {
+        String user = CacheAdapter.getUserGlobalfromMem();
+        String hash = CacheAdapter.getHashGlobalfromMem();
         ConnAdapter.setGlobalId(user);
         ConnAdapter.setGlobalHash(hash);
     }
 
     //Get other information from cache.
-    private static void getOtherData() throws FileNotFoundException{
-        String cal =new CacheAdapter().getCalfromMem();
-        String fs  =new CacheAdapter().getFsfromMem();
-        String exams=new CacheAdapter().getExamsfromMem();
-        String credits= new CacheAdapter().getCreditsfromMem();
-        String GroupFilter = new CacheAdapter().getFilterfromMem();
+    private static void getOtherData() {
+        String cal = CacheAdapter.getCalfromMem();
+        String fs = CacheAdapter.getFsfromMem();
+        String exams= CacheAdapter.getExamsfromMem();
+        String credits= CacheAdapter.getCreditsfromMem();
+        String GroupFilter = CacheAdapter.getFilterfromMem();
 
         if(GroupFilter.equals("Datei nicht vorhanden.")){
             ConnAdapter.setFilterGlobal("");
-            new CacheAdapter().saveFiltertoMem("");
+            try {
+                CacheAdapter.saveFiltertoMem("");
+            }
+
+            catch (IOException e){
+                e.printStackTrace();
+            }
         }
 
         ConnAdapter.setUserExams(exams);
@@ -148,12 +145,19 @@ public class LoginActivity extends AppCompatActivity {
 
     //Set information to cache.
     private static void setCache(){
-        new CacheAdapter().saveCaltoMem(ConnAdapter.getUserCal());
-        new CacheAdapter().saveCredittoMem(ConnAdapter.getUserCredits());
-        new CacheAdapter().saveExamstoMem(ConnAdapter.getUserExams());
-        new CacheAdapter().saveFstoMem(ConnAdapter.getUserFs());
-        new CacheAdapter().saveHashGlobaltoMem(ConnAdapter.getGlobalHash());
-        new CacheAdapter().saveUserGlobaltoMem(ConnAdapter.getGlobalId());
+
+        try {
+            CacheAdapter.saveCaltoMem(ConnAdapter.getUserCal());
+            CacheAdapter.saveCredittoMem(ConnAdapter.getUserCredits());
+            CacheAdapter.saveExamstoMem(ConnAdapter.getUserExams());
+            CacheAdapter.saveFstoMem(ConnAdapter.getUserFs());
+            CacheAdapter.saveHashGlobaltoMem(ConnAdapter.getGlobalHash());
+            CacheAdapter.saveUserGlobaltoMem(ConnAdapter.getGlobalId());
+        }
+
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     //Attempt to login.
@@ -359,10 +363,10 @@ public class LoginActivity extends AppCompatActivity {
     private class TimetableTask extends AsyncTask<Void, Void,String> {
 
         //Set params.
-        private String userName;
-        private String hashValue;
-        private String startTime;
-        private String endTime;
+        private final String userName;
+        private final String hashValue;
+        private final String startTime;
+        private final String endTime;
 
         //Take params from function.
         TimetableTask(String id, String hash, String start, String end){
@@ -384,8 +388,8 @@ public class LoginActivity extends AppCompatActivity {
     private class SemesterTask extends AsyncTask<Void, Void,String> {
 
         //Params.
-        private String userName;
-        private String hashValue;
+        private final String userName;
+        private final String hashValue;
 
         //Sets.
         SemesterTask(String id, String hash) {
