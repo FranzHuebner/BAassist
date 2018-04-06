@@ -95,18 +95,32 @@ public class ConnAdapter {
         return ((String) filterGlobal);
     }
 
+    //Function to clean the output of Campus Dual, because in their database are stored wrong encodings
+    private static String cleanContent(String Input){
+        Input = Input.replace("\\u00c4","Ä");
+        Input = Input.replace("\\u00e4","ä");
+        Input = Input.replace("\\u00d6","Ö");
+        Input = Input.replace("\\u00f6","ö");
+        Input = Input.replace("\\u00dc","Ü");
+        Input = Input.replace("\\u00fc","ü");
+        Input = Input.replace("\\u00df","ß");
 
-    //Function to open the streamreader and wrap the response to a string.
+        return Input;
+    }
+
     private static String getUrlContents(String theUrl) {
         trustAllCertificates();
         StringBuilder content = new StringBuilder();
 
         try{
+
             //params need to be inside try
             URL url = new URL(theUrl);
             HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
+            BufferedReader bufferedReader;
+            bufferedReader = new BufferedReader(new InputStreamReader( urlConnection.getInputStream(),"UTF8"));
             String line;
+
 
             //Read buffer to string.
             while ((line = bufferedReader.readLine()) != null)
@@ -119,8 +133,13 @@ public class ConnAdapter {
             e.printStackTrace();
         }
 
+        //UTF
+        String cleanContentString = content.toString();
+        cleanContentString = cleanContent(cleanContentString);
+
         //Return the body of the website
-        return content.toString();
+        return cleanContentString;
+
     }
 
     //Trusting every CA-Certificate.
