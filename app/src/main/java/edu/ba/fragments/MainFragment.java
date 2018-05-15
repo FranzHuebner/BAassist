@@ -34,7 +34,7 @@ import static android.content.ContentValues.TAG;
 
 public class MainFragment extends Fragment{
 
-    String testFilterGroup = "Gruppe 2,Gruppe 1A";
+    String testFilterGroup = "Gruppe 2,Gruppe 1A,WPF 3";
 
     long actTime = System.currentTimeMillis()/1000;
     Date actDate = ConnAdapter.convertUnixtoNormalDate(1475307900);
@@ -44,6 +44,7 @@ public class MainFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         String output= ConnAdapter.getUserCal();                     // Get data as string.
+        String filterString =ConnAdapter.getUserFilter();
 
         /*/
         String[] timeTableData = output.split("title");             //Array which splits the output string in the different elements.
@@ -73,6 +74,12 @@ public class MainFragment extends Fragment{
                 JSONObject t = timeTableContent.getJSONObject(i);
 
                 String subject = t.getString("title");
+                //Check start
+                if(filterString != ""){
+                    if(jsonGroupFilter(subject, filterString)){
+                        continue;
+                    }
+                }
                 String teacher = t.getString("instructor");
                 String begin = t.getString("start");
                 String end = t.getString("end");
@@ -159,6 +166,26 @@ public class MainFragment extends Fragment{
         List<String> list = new ArrayList<>(Arrays.asList(v));
         list.removeAll(Collections.singleton(null));
         return list.toArray(new String[list.size()]);
+    }
+
+
+    public boolean jsonGroupFilter(String inputSubject, String filter){
+        String filterString = filter;
+
+
+        String[] filters = filterString.split(",");
+
+        Boolean filterFlag = false;
+        for (int k = 0; k < filters.length; k++) {
+            if (inputSubject.contains(filters[k].toString())) {
+                    filterFlag = true;
+                }
+            }
+         if(filterFlag){
+            return true;
+         }else{
+            return false;
+         }
     }
 
     //Function for the group-filter
