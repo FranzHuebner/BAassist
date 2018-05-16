@@ -16,7 +16,7 @@ import edu.ba.baassist.R;
 
 public class WikiFragment extends Fragment {
 
-    public WebView mWebView;
+    private WebView mWebView;
 
     //Display the "BA-Wiki" which is a web resource with a WebView.
     @Nullable

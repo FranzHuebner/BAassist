@@ -76,14 +76,9 @@ public class SettingsFragment extends Fragment {
                 View DiaView = layoutInflat.inflate(R.layout.alert_filter_group, null);
                  final EditText userInput = (EditText) DiaView
                         .findViewById(R.id.editText);
-                String myFilter;
-                try{
-                     myFilter = new CacheAdapter().getFilterfromMem();
-                } catch (FileNotFoundException e){
-                    myFilter= "";
-                }
+                String myFilter = CacheAdapter.getFilterfromMem();
 
-                if(new CacheAdapter().getFileExistence("userFilter")) {
+                if(CacheAdapter.getFileExistence("userFilter")) {
                     userInput.setText(myFilter, TextView.BufferType.EDITABLE);
                 }
 
@@ -97,7 +92,16 @@ public class SettingsFragment extends Fragment {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Edit global vars
                                 ConnAdapter.setFilterGlobal(userInput.getText().toString());
-                                new CacheAdapter().saveFiltertoMem(userInput.getText().toString());
+
+                                try
+                                {
+                                    CacheAdapter.saveFiltertoMem(userInput.getText().toString());
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
 
                                 break;
 
@@ -119,36 +123,24 @@ public class SettingsFragment extends Fragment {
 
                 //Download new data
                 new RefreshTask().execute();
-                String result="";
+                String result;
                 //Check difference between cache and vars
                 try {
-                    result=new CacheAdapter().checkDiff(ConnAdapter.getUserCal(),"userCal");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    result = CacheAdapter.checkDiff(ConnAdapter.getUserCal(), "userCal");
+                    result = CacheAdapter.checkDiff(ConnAdapter.getUserCredits(), "userCredits");
+                    result = CacheAdapter.checkDiff(ConnAdapter.getUserFs(), "userFs");
+                    result = CacheAdapter.checkDiff(ConnAdapter.getUserExams(), "userExams");
+
+                    if (result.equals("Datei überschrieben.")) {
+                        Toast.makeText(v.getContext(), "Daten aktualisiert.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(v.getContext(), "Daten sind auf dem aktuellen Stand.", Toast.LENGTH_LONG).show();
+                    }
                 }
 
-                try {
-                    result=new CacheAdapter().checkDiff(ConnAdapter.getUserCredits(),"userCredits");
-                } catch (FileNotFoundException e) {
+                catch (IOException e)
+                {
                     e.printStackTrace();
-                }
-
-                try {
-                    result=new CacheAdapter().checkDiff(ConnAdapter.getUserFs(),"userFs");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    result = new CacheAdapter().checkDiff(ConnAdapter.getUserExams(),"userExams");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                if(result.equals("Datei überschrieben.")){
-                    Toast.makeText(v.getContext(),"Daten aktualisiert.", Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(v.getContext(),"Daten sind auf dem aktuellen Stand.", Toast.LENGTH_LONG).show();
                 }
 
                 break;
@@ -156,28 +148,25 @@ public class SettingsFragment extends Fragment {
     }
 
     //Function to wipe the whole cache.
-    private static boolean deleteCache() {
+    private static void deleteCache() {
 
-        boolean exist1 = new CacheAdapter().getFileExistence("userGlobal");
-        boolean exist2 = new CacheAdapter().getFileExistence("HashGlobal");
-        boolean exist3 = new CacheAdapter().getFileExistence("userExams");
-        boolean exist4 = new CacheAdapter().getFileExistence("userCredits");
-        boolean exist5 = new CacheAdapter().getFileExistence("userFs");
-        boolean exist6 = new CacheAdapter().getFileExistence("userCal");
-        boolean exist7 = new CacheAdapter().getFileExistence("userFilter");
+        boolean exist1 = CacheAdapter.getFileExistence("userGlobal");
+        boolean exist2 = CacheAdapter.getFileExistence("HashGlobal");
+        boolean exist3 = CacheAdapter.getFileExistence("userExams");
+        boolean exist4 = CacheAdapter.getFileExistence("userCredits");
+        boolean exist5 = CacheAdapter.getFileExistence("userFs");
+        boolean exist6 = CacheAdapter.getFileExistence("userCal");
+        boolean exist7 = CacheAdapter.getFileExistence("userFilter");
 
         //TODO rework structure
         if (exist1 && exist2 && exist3 && exist4 && exist5 && exist6 || exist7) {
-            new CacheAdapter().deleteEntry("userGlobal");
-            new CacheAdapter().deleteEntry("HashGlobal");
-            new CacheAdapter().deleteEntry("userExams");
-            new CacheAdapter().deleteEntry("userCredits");
-            new CacheAdapter().deleteEntry("userFs");
-            new CacheAdapter().deleteEntry("userCal");
-            new CacheAdapter().deleteEntry("userFilter");
-            return true;
-        } else {
-            return false;
+            CacheAdapter.deleteEntry("userGlobal");
+            CacheAdapter.deleteEntry("HashGlobal");
+            CacheAdapter.deleteEntry("userExams");
+            CacheAdapter.deleteEntry("userCredits");
+            CacheAdapter.deleteEntry("userFs");
+            CacheAdapter.deleteEntry("userCal");
+            CacheAdapter.deleteEntry("userFilter");
         }
     }
 

@@ -36,8 +36,8 @@ public class MainFragment extends Fragment{
 
     String testFilterGroup = "Gruppe 2,Gruppe 1A,WPF 3";                    //only for test
 
-    long actTime = System.currentTimeMillis()/1000;
-    Date actDate = ConnAdapter.convertUnixtoNormalDate(1475307900);
+    private final long actTime = System.currentTimeMillis()/1000;
+    private Date actDate = ConnAdapter.convertUnixtoNormalDate(1475307900);
 
     @Nullable
     @Override
@@ -100,14 +100,14 @@ public class MainFragment extends Fragment{
     }
 
     //Method to convert time string to int.
-    public int convertTimeStringToInteger(String input){
+    private int convertTimeStringToInteger(String input){
         String begOfLesson = input.substring(input.indexOf(":")+1);
 
         return Integer.parseInt(begOfLesson);
     }
 
     //Function to remove null elements in the array
-    public static String[] clean(final String[] v) {
+    private static String[] clean(final String[] v) {
         List<String> list = new ArrayList<>(Arrays.asList(v));
         list.removeAll(Collections.singleton(null));
         return list.toArray(new String[list.size()]);
@@ -115,6 +115,7 @@ public class MainFragment extends Fragment{
 
 
     //Function for the group-filter
+
     public boolean jsonGroupFilter(String inputSubject, String filter){
         String filterString = filter;
 
@@ -197,7 +198,7 @@ public class MainFragment extends Fragment{
             for (int i = 0; i < inputData.length; i++) {
                 filterFlag = false;
                 for (int k = 0; k < filters.length; k++) {
-                    if (inputData[i].contains(filters[k].toString())) {
+                    if (inputData[i].contains(filters[k])) {
                         filterFlag = true;
                     }
                 }

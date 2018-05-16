@@ -14,10 +14,10 @@ import java.util.ArrayList;
  */
 
 public class TimetableAdapter extends BaseAdapter {
-    private ArrayList<Object> timetable;
+    private final ArrayList<Object> timetable;
     private static final int TIMETABLE_ITEM = 0;
     private static final int HEADER = 1;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     public TimetableAdapter(Context context, ArrayList<Object> timetable){
         this.timetable = timetable;
