@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.ba.baassist.ConnAdapter;
+import edu.ba.baassist.InfoHandler;
 import edu.ba.baassist.R;
 
 /**
@@ -30,6 +31,13 @@ public class StatusFragment extends Fragment {
         String actCredits = ConnAdapter.userCredits.toString();
         String[] exams = actExams.split(",");
         actSemester=actSemester.replace("\"","");
+
+        //just testing
+        new InfoHandler();
+        InfoHandler.saveHashmaptoDisk();
+        InfoHandler.compareVar("userId","1234567");
+        InfoHandler.updateVar("userId","999999");
+        InfoHandler.relaoadMapfromCache();
 
         //Display the actual information.
         TextView semester = (TextView) rootView.findViewById(R.id.textViewActSemester);

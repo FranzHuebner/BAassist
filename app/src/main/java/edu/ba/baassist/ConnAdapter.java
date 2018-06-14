@@ -33,16 +33,15 @@ public class ConnAdapter {
     private static Object userGlobal;
     private static Object hashGlobal;
 
-
     private static Object filterGlobal;
 
     //Public setter methods.
-    static void setUserCal(String cal){
-        userCal = cal;
-    }
+        static void setUserCal(String cal){
+            userCal = cal;
+        }
 
-    static void setUserFs(String fs){
-       userFs = fs;
+        static void setUserFs(String fs){
+            userFs = fs;
     }
 
     static void setUserExams(String exams){

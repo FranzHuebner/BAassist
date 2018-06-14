@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 public class CacheAdapter {
 
     //Define context == our application.
-    static Context fileContext;
+    public static Context fileContext;
 
     //Save calender to memory.
     boolean saveCaltoMem(String cal){
